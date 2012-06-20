@@ -89,7 +89,7 @@ public class SingleFactRulesEngineImpl implements RulesEngine
 		{
 			boolean found = false;
 			int i = -1;
-			for(i = rulesMap.size() - 1; i >= 0; i--)
+			for(i = 0; i <= rulesMap.size()-1; i++)
 			{
 				if(rulesMap.get(i).getRule().equals(rule))
 				{
