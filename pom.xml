@@ -9,7 +9,7 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.bobosse.gwt</groupId>
+	<groupId>net.bobosse</groupId>
 	<artifactId>gwt-rulesengine</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
