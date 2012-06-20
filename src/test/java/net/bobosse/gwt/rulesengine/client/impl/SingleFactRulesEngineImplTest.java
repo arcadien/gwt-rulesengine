@@ -15,7 +15,7 @@ public class SingleFactRulesEngineImplTest
 
 		engine.addRule(new RegexRuleImpl("test pattern", "[a-z]", null));
 
-		Assert.assertEquals(engine.getRules().size(), 1);
+		Assert.assertEquals(1, engine.getOrderedRules().size());
 	}
 
 	@Test
@@ -27,11 +27,11 @@ public class SingleFactRulesEngineImplTest
 		RuleHandler handler = engine.addRule(new RegexRuleImpl(
 				"test pattern", "[a-z]", null, 100));
 
-		Assert.assertEquals(engine.getRules().size(), 1);
+		Assert.assertEquals(1, engine.getOrderedRules().size());
 
 		handler.dispose();
 
-		Assert.assertEquals(engine.getRules().size(), 0);
+		Assert.assertEquals(0, engine.getOrderedRules().size());
 
 	}
 

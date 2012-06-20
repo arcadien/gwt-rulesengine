@@ -24,9 +24,10 @@ import com.google.gwt.user.client.ui.TextBox;
  * @author sesa202001
  * 
  */
-public class SingleFactRulesEngineImpl implements RulesEngine {
+public class SingleFactRulesEngineImpl implements RulesEngine
+{
 
-	private final Map<Rule, RuleHandler> rulesMap = new HashMap<Rule, RuleHandler>();
+	private final Map<Integer, RuleHandler> rulesMap = new HashMap<Integer, RuleHandler>();
 
 	private Report report;
 
@@ -36,54 +37,84 @@ public class SingleFactRulesEngineImpl implements RulesEngine {
 	 * @author sesa202001
 	 * 
 	 */
-	public class RuleHandlerImpl implements RuleHandler {
+	public class RuleHandlerImpl implements RuleHandler
+	{
 
 		private Rule rule;
 		private RulesEngine engine;
 
-		protected RuleHandlerImpl(Rule rule, RulesEngine engine) {
+		protected RuleHandlerImpl (Rule rule, RulesEngine engine)
+		{
 			this.rule = rule;
 			this.engine = engine;
 		}
 
 		@Override
-		public void dispose() {
+		public void dispose()
+		{
 			rule.passivate();
 			rule.clearCommands();
 			((SingleFactRulesEngineImpl) engine).removeRule(rule);
 		}
 
 		@Override
-		public Rule getRule() {
+		public Rule getRule()
+		{
 			return rule;
 		}
 	}
 
-	public SingleFactRulesEngineImpl() {
+	public SingleFactRulesEngineImpl ()
+	{
 		this.report = new Report();
 	}
-	
+
 	@Override
-	public RuleHandler addRule(Rule rule) {
+	public RuleHandler addRule(Rule rule)
+	{
 		RuleHandlerImpl handler = new RuleHandlerImpl(rule, this);
-		getRulesMap().put(rule, handler);
+		getRulesMap().put(getRulesMap().size(), handler);
 		return handler;
 	}
 
-	public void removeRule(Rule rule) {
-		getRulesMap().remove(rule);
-
+	/**
+	 * removeRule may only be used trough {@link RuleHandler}
+	 * 
+	 * @param rule
+	 *            to remove
+	 */
+	private synchronized void removeRule(Rule rule)
+	{
+		synchronized (rulesMap)
+		{
+			boolean found = false;
+			int i = -1;
+			for(i = rulesMap.size() - 1; i >= 0; i--)
+			{
+				if(rulesMap.get(i).getRule().equals(rule))
+				{
+					found = true;
+					break;
+				}
+			}
+			if(found)
+			{
+				getRulesMap().remove(i);
+			}
+		}
 	}
 
 	@Override
-	public void processFact(Object fact) {
+	public void processFact(Object fact)
+	{
 		processFact(fact, getReport());
 	}
 
 	@Override
-	public void processFact(Object fact, Report report) {
-		List<Rule> allRulesList = new ArrayList<Rule>(rulesMap.keySet());
-		for (Rule rule : allRulesList) {
+	public void processFact(Object fact, Report report)
+	{
+		for(Rule rule: getOrderedRules())
+		{
 			Log.debug("#processFact() executes rule " + rule);
 			rule.execute(fact, report);
 		}
@@ -94,23 +125,37 @@ public class SingleFactRulesEngineImpl implements RulesEngine {
 	 * 
 	 * @return
 	 */
-	private Map<Rule, RuleHandler> getRulesMap() {
+	private Map<Integer, RuleHandler> getRulesMap()
+	{
 		return rulesMap;
 	}
 
-	public List<Rule> getRules() {
-		return new ArrayList<Rule>(rulesMap.keySet());
+	/**
+	 * 
+	 * @return rules list in the order they where inserted
+	 */
+	public List<Rule> getOrderedRules()
+	{
+		ArrayList<Rule> rules = new ArrayList<Rule>();
+		rulesMap.values();
+		for(int i = rulesMap.size() - 1; i >= 0; i--)
+		{
+			rules.add(rulesMap.get(i).getRule());
+		}
+		return rules;
 	}
 
 	@Override
-	public Report getReport() {
+	public Report getReport()
+	{
 		return report;
 	}
-	
+
 	@Override
-	public void clearReport() {
+	public void clearReport()
+	{
 		report = new Report();
-		
+
 	}
 
 }

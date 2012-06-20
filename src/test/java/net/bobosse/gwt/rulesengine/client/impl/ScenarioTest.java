@@ -3,10 +3,19 @@ package net.bobosse.gwt.rulesengine.client.impl;
 import net.bobosse.gwt.rulesengine.client.Report;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ScenarioTest {
 
+	
+	@BeforeClass
+	public static void initLog(){
+
+//		  Log.addLogger(new ConsoleLogger());
+//		  Log.setCurrentLogLevel(Log.LOG_LEVEL_DEBUG);
+	} 
+	
 	/**
 	 * 
 	 * @return a new action instance, that trace in a string list the sentence
