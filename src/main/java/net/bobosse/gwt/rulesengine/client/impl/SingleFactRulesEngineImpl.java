@@ -10,9 +10,7 @@ import net.bobosse.gwt.rulesengine.client.Rule;
 import net.bobosse.gwt.rulesengine.client.RuleHandler;
 import net.bobosse.gwt.rulesengine.client.RulesEngine;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.TextBox;
@@ -27,9 +25,6 @@ import com.google.gwt.user.client.ui.TextBox;
  * 
  */
 public class SingleFactRulesEngineImpl implements RulesEngine {
-
-	private static final Logger logger = Logger
-			.getLogger(SingleFactRulesEngineImpl.class);
 
 	private final Map<Rule, RuleHandler> rulesMap = new HashMap<Rule, RuleHandler>();
 
@@ -89,7 +84,7 @@ public class SingleFactRulesEngineImpl implements RulesEngine {
 	public void processFact(Object fact, Report report) {
 		List<Rule> allRulesList = new ArrayList<Rule>(rulesMap.keySet());
 		for (Rule rule : allRulesList) {
-			logger.log(Level.DEBUG, "#processFact() executes rule " + rule);
+			Log.debug("#processFact() executes rule " + rule);
 			rule.execute(fact, report);
 		}
 	}

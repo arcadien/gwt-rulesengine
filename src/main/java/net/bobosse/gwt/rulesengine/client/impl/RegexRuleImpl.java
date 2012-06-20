@@ -6,9 +6,7 @@ import java.util.List;
 import net.bobosse.gwt.rulesengine.client.Report;
 import net.bobosse.gwt.rulesengine.client.RuledCommand;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
@@ -21,9 +19,6 @@ import com.google.gwt.regexp.shared.RegExp;
  */
 public class RegexRuleImpl extends AbstractRuleImpl
 {
-
-	private static final Logger logger = Logger.getLogger(RegexRuleImpl.class);
-
 	private String pattern;
 
 	/**
@@ -94,7 +89,7 @@ public class RegexRuleImpl extends AbstractRuleImpl
 		matches = getMatches(fact.toString(), pattern);
 		if(matches.size() > 0)
 		{
-			logger.log(Level.DEBUG, "'" + this + "' matched '" + fact + "'");
+			Log.debug("'" + this + "' matched '" + fact + "'");
 			try
 			{
 				setReport(context);

@@ -1,10 +1,9 @@
 package net.bobosse.gwt.rulesengine.client.impl;
 
-import net.bobosse.gwt.rulesengine.client.RuledCommand;
 import net.bobosse.gwt.rulesengine.client.Rule;
+import net.bobosse.gwt.rulesengine.client.RuledCommand;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import com.allen_sauer.gwt.log.client.Log;
 
 /**
  * Base {@link RuledCommand} implementation that handles <code>this.rule</code>
@@ -15,13 +14,12 @@ import org.apache.log4j.Logger;
  */
 public abstract class AbstractRuledCommandImpl implements RuledCommand
 {
-	private static final Logger logger = Logger.getLogger(AbstractRuleImpl.class);
 	private Rule rule;
 
 	@Override
 	public void setRule(Rule rule)
 	{		
-		logger.log(Level.DEBUG, this + " linked to rule '" + rule + "'");
+		Log.debug(this + " linked to rule '" + rule + "'");
 		this.rule = rule;
 	}
 
