@@ -1,6 +1,7 @@
 package net.bobosse.gwt.rulesengine.client.impl;
 
 import net.bobosse.gwt.rulesengine.client.Report;
+import net.bobosse.gwt.rulesengine.client.impl.SingleFactRulesEngineImpl.OrderMode;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -15,21 +16,6 @@ public class ScenarioTest {
 //		  Log.addLogger(new ConsoleLogger());
 //		  Log.setCurrentLogLevel(Log.LOG_LEVEL_DEBUG);
 	} 
-	
-	/**
-	 * 
-	 * @return a new action instance, that trace in a string list the sentence
-	 *         we expect.
-	 */
-	private class LogCommand extends AbstractRuledCommandImpl {
-
-		@Override
-		public void execute() {
-			getRule().getReport().add("'" + getRule().getFact() + "'" + " triggers "
-					+ getRule().getName());
-
-		}
-	}
 
 	/**
 	 * 
@@ -58,19 +44,19 @@ public class ScenarioTest {
 		// trigger lowercase rule, domain rule, instance rule, with rule
 		String token5 = "target location";
 
-		RegexRuleImpl lcRule = new RegexRuleImpl("lowercase", "[a-z]");
-		lcRule.addCommand(new LogCommand());
+		RegexRule lcRule = new RegexRule("lowercase", "[a-z]");
+		lcRule.addCommand(new LogFactVerbRuleCommand("triggers"));
 
-		RegexRuleImpl domainRule = new RegexRuleImpl("domain", "target");
-		domainRule.addCommand(new LogCommand());
+		RegexRule domainRule = new RegexRule("domain", "target");
+		domainRule.addCommand(new LogFactVerbRuleCommand("triggers"));
 
-		RegexRuleImpl instanceRule = new RegexRuleImpl("instance", "loc");
-		instanceRule.addCommand(new LogCommand());
+		RegexRule instanceRule = new RegexRule("instance", "loc");
+		instanceRule.addCommand(new LogFactVerbRuleCommand("triggers"));
 
-		RegexRuleImpl withRule = new RegexRuleImpl("with", "location");
-		withRule.addCommand(new LogCommand());
+		RegexRule withRule = new RegexRule("with", "location");
+		withRule.addCommand(new LogFactVerbRuleCommand("triggers"));
 
-		SingleFactRulesEngineImpl engine = new SingleFactRulesEngineImpl();
+		SingleFactRulesEngineImpl engine = new SingleFactRulesEngineImpl(OrderMode.INSERT);
 		engine.addRule(lcRule);
 		engine.addRule(domainRule);
 		engine.addRule(instanceRule);
@@ -93,44 +79,43 @@ public class ScenarioTest {
 		// token1
 		// trigger lowercase rule
 		Assert.assertTrue("#1 'a' must trigger rule : lowercase",
-				ctx.contains("'a' triggers lowercase"));
+				ctx.contains("'a' triggers 'lowercase'"));
 
 		// token 2
 		// trigger lowercase rule
 		Assert.assertTrue("#2 'tar' must trigger rule : lowercase",
-				ctx.contains("'tar' triggers lowercase"));
+				ctx.contains("'tar' triggers 'lowercase'"));
 
 		// token 3
 		// trigger lowercase rule, domain rule
 		Assert.assertTrue("#3 '" + token3 + "' must trigger rule : lowercase",
-				ctx.contains("'" + token3 + "' triggers lowercase"));
+				ctx.contains("'" + token3 + "' triggers 'lowercase'"));
 		Assert.assertTrue("#3 '" + token3 + "' must trigger rule : domain",
-				ctx.contains("'" + token3 + "' triggers domain"));
+				ctx.contains("'" + token3 + "' triggers 'domain'"));
 
 		// token 4
 		// trigger lowercase , domain , instance
 		Assert.assertTrue("#4 '" + token4 + "' must trigger rule : lowercase",
-				ctx.contains("'" + token4 + "' triggers lowercase"));
+				ctx.contains("'" + token4 + "' triggers 'lowercase'"));
 
 		Assert.assertTrue("#4 '" + token4 + "' must trigger rule :domain",
-				ctx.contains("'" + token4 + "' triggers domain"));
+				ctx.contains("'" + token4 + "' triggers 'domain'"));
 
 		Assert.assertTrue("#4 '" + token4 + "' must trigger rule : instance",
-				ctx.contains("'" + token4 + "' triggers instance"));
+				ctx.contains("'" + token4 + "' triggers 'instance'"));
 
 		// token 5
 		// trigger lowercase , domain , instance , with
 		Assert.assertTrue("#5 '" + token5 + "' must trigger rule : lowercase",
-				ctx.contains("'" + token5 + "' triggers lowercase"));
+				ctx.contains("'" + token5 + "' triggers 'lowercase'"));
 
 		Assert.assertTrue("#5 '" + token5 + "' must trigger rule : domain",
-				ctx.contains("'" + token5 + "' triggers domain"));
+				ctx.contains("'" + token5 + "' triggers 'domain'"));
 
 		Assert.assertTrue("#5 '" + token5 + "' must trigger rule : instance",
-				ctx.contains("'" + token5 + "' triggers instance"));
+				ctx.contains("'" + token5 + "' triggers 'instance'"));
 
 		Assert.assertTrue("#5 '" + token5 + "' must trigger rule : with",
-				ctx.contains("'" + token5 + "' triggers with"));
+				ctx.contains("'" + token5 + "' triggers 'with'"));
 	}
-
 }

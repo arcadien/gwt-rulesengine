@@ -24,12 +24,39 @@ import com.google.gwt.user.client.ui.TextBox;
  * @author sesa202001
  * 
  */
-public class SingleFactRulesEngineImpl implements RulesEngine
-{
+public class SingleFactRulesEngineImpl implements RulesEngine {
+
+	/**
+	 * How the result of <code>getRules(OrderMode mode)</code> will be sorted.<br />
+	 * <ul>
+	 * <li>OrderMode.SALIENCE : sorted by salience value. remember default is -1
+	 * </li>
+	 * <li>OrderMode.INSERT : sorted in same order they were added</li>
+	 * </ul>
+	 * 
+	 * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
+	 * 
+	 */
+	public enum OrderMode {
+		SALIENCE, INSERT
+	}
 
 	private final Map<Integer, RuleHandler> rulesMap = new HashMap<Integer, RuleHandler>();
 
 	private Report report;
+
+	/**
+	 * How the result of <code>getRules(OrderMode mode)</code> will be sorted.<br />
+	 * <ul>
+	 * <li>OrderMode.SALIENCE : sorted by salience value. remember default is -1
+	 * </li>
+	 * <li>OrderMode.INSERT : sorted in same order they were added</li>
+	 * </ul>
+	 * 
+	 * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
+	 * 
+	 */
+	private OrderMode mode;
 
 	/**
 	 * {@link RuleHandler} implementation for {@link SingleFactRulesEngineImpl}
@@ -37,41 +64,36 @@ public class SingleFactRulesEngineImpl implements RulesEngine
 	 * @author sesa202001
 	 * 
 	 */
-	public class RuleHandlerImpl implements RuleHandler
-	{
+	public class RuleHandlerImpl implements RuleHandler {
 
 		private Rule rule;
 		private RulesEngine engine;
 
-		protected RuleHandlerImpl (Rule rule, RulesEngine engine)
-		{
+		protected RuleHandlerImpl(Rule rule, RulesEngine engine) {
 			this.rule = rule;
 			this.engine = engine;
 		}
 
 		@Override
-		public void dispose()
-		{
+		public void dispose() {
 			rule.passivate();
 			rule.clearCommands();
 			((SingleFactRulesEngineImpl) engine).removeRule(rule);
 		}
 
 		@Override
-		public Rule getRule()
-		{
+		public Rule getRule() {
 			return rule;
 		}
 	}
 
-	public SingleFactRulesEngineImpl ()
-	{
+	public SingleFactRulesEngineImpl(OrderMode mode) {
 		this.report = new Report();
+		this.mode = mode;
 	}
 
 	@Override
-	public RuleHandler addRule(Rule rule)
-	{
+	public RuleHandler addRule(Rule rule) {
 		RuleHandlerImpl handler = new RuleHandlerImpl(rule, this);
 		getRulesMap().put(getRulesMap().size(), handler);
 		return handler;
@@ -83,38 +105,30 @@ public class SingleFactRulesEngineImpl implements RulesEngine
 	 * @param rule
 	 *            to remove
 	 */
-	private synchronized void removeRule(Rule rule)
-	{
-		synchronized (rulesMap)
-		{
+	private synchronized void removeRule(Rule rule) {
+		synchronized (rulesMap) {
 			boolean found = false;
 			int i = -1;
-			for(i = 0; i <= rulesMap.size()-1; i++)
-			{
-				if(rulesMap.get(i).getRule().equals(rule))
-				{
+			for (i = 0; i <= rulesMap.size() - 1; i++) {
+				if (rulesMap.get(i).getRule().equals(rule)) {
 					found = true;
 					break;
 				}
 			}
-			if(found)
-			{
+			if (found) {
 				getRulesMap().remove(i);
 			}
 		}
 	}
 
 	@Override
-	public void processFact(Object fact)
-	{
+	public void processFact(Object fact) {
 		processFact(fact, getReport());
 	}
 
 	@Override
-	public void processFact(Object fact, Report report)
-	{
-		for(Rule rule: getOrderedRules())
-		{
+	public void processFact(Object fact, Report report) {
+		for (Rule rule : getRules()) {
 			Log.debug("#processFact() executes rule " + rule);
 			rule.execute(fact, report);
 		}
@@ -125,8 +139,7 @@ public class SingleFactRulesEngineImpl implements RulesEngine
 	 * 
 	 * @return
 	 */
-	private Map<Integer, RuleHandler> getRulesMap()
-	{
+	private Map<Integer, RuleHandler> getRulesMap() {
 		return rulesMap;
 	}
 
@@ -134,26 +147,27 @@ public class SingleFactRulesEngineImpl implements RulesEngine
 	 * 
 	 * @return rules list in the order they where inserted
 	 */
-	public List<Rule> getOrderedRules()
-	{
-		ArrayList<Rule> rules = new ArrayList<Rule>();
-		rulesMap.values();
-		for(int i = rulesMap.size() - 1; i >= 0; i--)
-		{
-			rules.add(rulesMap.get(i).getRule());
+	public List<Rule> getRules() {
+		ArrayList<Rule> rules = new ArrayList<Rule>(rulesMap.keySet().size());
+		if (mode == OrderMode.INSERT) {
+			rulesMap.values();
+			for (int i = rulesMap.size() - 1; i >= 0; i--) {
+				rules.add(rulesMap.get(i).getRule());
+			}
+		} else if (mode == OrderMode.SALIENCE){
+			// TODO sort array
+			Log.error("SALIENCE sort mode not yet implemented");
 		}
 		return rules;
 	}
 
 	@Override
-	public Report getReport()
-	{
+	public Report getReport() {
 		return report;
 	}
 
 	@Override
-	public void clearReport()
-	{
+	public void clearReport() {
 		report = new Report();
 
 	}

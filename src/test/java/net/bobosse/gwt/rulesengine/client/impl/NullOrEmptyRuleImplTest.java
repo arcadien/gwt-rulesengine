@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.bobosse.gwt.rulesengine.client.Rule;
 import net.bobosse.gwt.rulesengine.client.RuleHandler;
+import net.bobosse.gwt.rulesengine.client.impl.SingleFactRulesEngineImpl.OrderMode;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,12 +28,12 @@ public class NullOrEmptyRuleImplTest {
 	@Test
 	public void testMatch() {
 
-		SingleFactRulesEngineImpl engine = new SingleFactRulesEngineImpl();
+		SingleFactRulesEngineImpl engine = new SingleFactRulesEngineImpl(OrderMode.INSERT);
 
 		final ArrayList<Rule> matchedRules = new ArrayList<Rule>();
 
 		RuleHandler handler = engine.addRule(new NullOrEmptyRuleImpl(
-				"empty parameter", null, 100));
+				"empty parameter", 100));
 
 		handler.getRule().addCommand(new LogRuleAction(matchedRules));
 
