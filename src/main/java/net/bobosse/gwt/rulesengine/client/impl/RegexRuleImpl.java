@@ -19,51 +19,107 @@ import com.google.gwt.regexp.shared.RegExp;
  * @author sesa202001
  * 
  */
-public class RegexRuleImpl extends AbstractRuleImpl {
+public class RegexRuleImpl extends AbstractRuleImpl
+{
 
 	private static final Logger logger = Logger.getLogger(RegexRuleImpl.class);
 
 	private String pattern;
 
-	public RegexRuleImpl(String name, String pattern, List<RuledCommand> actions,
-			int salience) {
+	/**
+	 * Full constructor
+	 * 
+	 * @param name
+	 *            rule's name
+	 * @param pattern
+	 *            rule's match pattern
+	 * @param actions
+	 *            to execute() when rule matches
+	 * @param salience
+	 *            priority level ( -100 &lt; salience &gt; 100)
+	 * 
+	 */
+	public RegexRuleImpl (String name, String pattern,
+			List<RuledCommand> actions, int salience)
+	{
 		super(name, actions);
 		this.pattern = pattern;
 	}
 
-	public RegexRuleImpl(String name, String pattern, List<RuledCommand> actions) {
+	/**
+	 * Constructor without salience : default set to -1.
+	 * 
+	 * @param name
+	 *            rule's name
+	 * @param pattern
+	 *            rule's match pattern
+	 * @param actions
+	 *            to execute() when rule matches
+	 */
+	public RegexRuleImpl (String name, String pattern,
+			List<RuledCommand> actions)
+	{
 		this(name, pattern, actions, -1);
 	}
 
-	public RegexRuleImpl(String name, String pattern) {
+	/**
+	 * Constructor with only name and pattern : no default rule and salience set
+	 * to -1.
+	 * 
+	 * @param name
+	 *            rule's name
+	 * @param pattern
+	 *            rule's match pattern
+	 */
+	public RegexRuleImpl (String name, String pattern)
+	{
 		this(name, pattern, null, -1);
 	}
 
+	/**
+	 * child class can't acceed <code>pattern</code>.
+	 * 
+	 * @param string
+	 * @return list of string's matches, according to rule's pattern.
+	 */
+	protected ArrayList<String> getMatches(String string)
+	{
+		return getMatches(string, pattern);
+	}
+
 	@Override
-	public void execute(Object fact, Report context) {
+	public void execute(Object fact, Report context)
+	{
 		ArrayList<String> matches = new ArrayList<String>();
 		matches = getMatches(fact.toString(), pattern);
-		if (matches.size() > 0) {
+		if(matches.size() > 0)
+		{
 			logger.log(Level.DEBUG, "'" + this + "' matched '" + fact + "'");
-			try {
+			try
+			{
 				setReport(context);
 				setFact(fact);
 				executeCommands();
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 			}
 		}
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return getName();
 	}
 
-	private ArrayList<String> getMatches(String input, String pattern) {
+	private ArrayList<String> getMatches(String input, String pattern)
+	{
 		ArrayList<String> matches = new ArrayList<String>();
 		RegExp regExp = RegExp.compile(pattern, "g");
-		for (MatchResult matcher = regExp.exec(input); matcher != null; matcher = regExp
-				.exec(input)) {
+		for(MatchResult matcher = regExp.exec(input); matcher != null; matcher = regExp
+				.exec(input))
+		{
 			matches.add(matcher.getGroup(0));
 		}
 		return matches;
