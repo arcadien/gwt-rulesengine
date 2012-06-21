@@ -16,11 +16,11 @@
 	<name>GWT rules engine extensions</name>
 
 	<url>http://arcadien.github.com/gwt-rulesengine</url>
-	
+
 	<scm>
 		<url>https://github.com/arcadien/gwt-rulesengine</url>
 		<connection>scm:git://github.com/arcadien/gwt-rulesengine.git</connection>
-		<developerConnection>https://github.com/arcadien/gwt-rulesengine.git</developerConnection>
+		<developerConnection>scm:git:https://github.com/arcadien/gwt-rulesengine.git</developerConnection>
 	</scm>
 
 	<developers>
