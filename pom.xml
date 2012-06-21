@@ -16,11 +16,11 @@
 	<name>GWT rules engine extensions</name>
 
 	<url>http://arcadien.github.com/gwt-rulesengine</url>
+	
 	<scm>
 		<url>https://github.com/arcadien/gwt-rulesengine</url>
-		<connection>git://github.com/arcadien/gwt-rulesengine.git</connection>
+		<connection>scm:git://github.com/arcadien/gwt-rulesengine.git</connection>
 		<developerConnection>https://github.com/arcadien/gwt-rulesengine.git</developerConnection>
-
 	</scm>
 
 	<developers>
@@ -30,7 +30,36 @@
 			<timezone>GMT+1</timezone>
 		</developer>
 	</developers>
-
+	
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
 	<properties>
 		<!-- Convenience property to set the GWT version -->
 		<gwtVersion>2.4.0</gwtVersion>
