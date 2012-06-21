@@ -4,7 +4,9 @@ import java.util.List;
 
 import net.bobosse.gwt.rulesengine.client.Rule;
 import net.bobosse.gwt.rulesengine.client.RuleHandler;
-import net.bobosse.gwt.rulesengine.client.impl.SingleFactRulesEngineImpl.OrderMode;
+import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine;
+import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine.OrderMode;
+import net.bobosse.gwt.rulesengine.client.impl.rules.RegexRule;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +15,7 @@ public class SingleFactRulesEngineImplTest {
 
 	@Test
 	public void testAddRule() {
-		SingleFactRulesEngineImpl engine = new SingleFactRulesEngineImpl(OrderMode.INSERT);
+		SingleFactRulesEngine engine = new SingleFactRulesEngine(OrderMode.INSERT);
 
 		engine.addRule(new RegexRule("test pattern", "[a-z]"));
 
@@ -23,7 +25,7 @@ public class SingleFactRulesEngineImplTest {
 	@Test
 	public void testDispose() {
 
-		SingleFactRulesEngineImpl engine = new SingleFactRulesEngineImpl(OrderMode.INSERT);
+		SingleFactRulesEngine engine = new SingleFactRulesEngine(OrderMode.INSERT);
 
 		RuleHandler handler = engine.addRule(new RegexRule("test pattern",
 				"[a-z]", 100));
@@ -38,7 +40,7 @@ public class SingleFactRulesEngineImplTest {
 
 	@Test
 	public void testSalienceEvaluation() {
-		SingleFactRulesEngineImpl engine = new SingleFactRulesEngineImpl(OrderMode.INSERT);
+		SingleFactRulesEngine engine = new SingleFactRulesEngine(OrderMode.INSERT);
 
 		List<RegexRule> rules = (java.util.Arrays.asList(new RegexRule[] {
 				new RegexRule("third", "[a-z]", 10),

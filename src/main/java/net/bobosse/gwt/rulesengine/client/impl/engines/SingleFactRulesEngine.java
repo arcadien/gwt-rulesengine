@@ -1,4 +1,4 @@
-package net.bobosse.gwt.rulesengine.client.impl;
+package net.bobosse.gwt.rulesengine.client.impl.engines;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.TextBox;
  * @author sesa202001
  * 
  */
-public class SingleFactRulesEngineImpl implements RulesEngine {
+public class SingleFactRulesEngine implements RulesEngine {
 
 	/**
 	 * How the result of <code>getRules(OrderMode mode)</code> will be sorted.<br />
@@ -59,7 +59,7 @@ public class SingleFactRulesEngineImpl implements RulesEngine {
 	private OrderMode mode;
 
 	/**
-	 * {@link RuleHandler} implementation for {@link SingleFactRulesEngineImpl}
+	 * {@link RuleHandler} implementation for {@link SingleFactRulesEngine}
 	 * 
 	 * @author sesa202001
 	 * 
@@ -78,7 +78,7 @@ public class SingleFactRulesEngineImpl implements RulesEngine {
 		public void dispose() {
 			rule.passivate();
 			rule.clearCommands();
-			((SingleFactRulesEngineImpl) engine).removeRule(rule);
+			((SingleFactRulesEngine) engine).removeRule(rule);
 		}
 
 		@Override
@@ -87,7 +87,7 @@ public class SingleFactRulesEngineImpl implements RulesEngine {
 		}
 	}
 
-	public SingleFactRulesEngineImpl(OrderMode mode) {
+	public SingleFactRulesEngine(OrderMode mode) {
 		this.report = new Report();
 		this.mode = mode;
 	}

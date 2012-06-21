@@ -1,4 +1,4 @@
-package net.bobosse.gwt.rulesengine.client.impl;
+package net.bobosse.gwt.rulesengine.client.impl.rules;
 
 import net.bobosse.gwt.rulesengine.client.Report;
 
@@ -9,17 +9,21 @@ import net.bobosse.gwt.rulesengine.client.Report;
  * @author sesa202001
  * 
  */
-public class NullOrEmptyRuleImpl extends AbstractRuleImpl {
+public class NullOrEmptyRule extends AbstractRule
+{
 
-	public NullOrEmptyRuleImpl(String name, int salience) {
+	public NullOrEmptyRule (String name, int salience)
+	{
 		super(name, salience);
 	}
 
 	@Override
-	public void execute(Object fact, Report report) {
+	public void execute(Object fact, Report report)
+	{
 		setFact(fact);
 		setReport(report);
-		if (null == fact || fact.toString().length() == 0) {
+		if(null == fact || fact.toString().length() == 0)
+		{
 			executeCommands();
 		}
 	}

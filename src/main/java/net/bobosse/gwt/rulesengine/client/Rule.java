@@ -46,7 +46,7 @@ public interface Rule
 	 * Execute business logic, using specific {@link Rule} implementation. This is the good
 	 * place to call <code>executeCommands()</code>.
 	 */
-	void execute(Object fact, Report context);
+	void execute(Object fact, Report report);
 
 	
 	/**

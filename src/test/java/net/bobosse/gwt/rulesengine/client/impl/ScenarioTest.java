@@ -1,7 +1,10 @@
 package net.bobosse.gwt.rulesengine.client.impl;
 
 import net.bobosse.gwt.rulesengine.client.Report;
-import net.bobosse.gwt.rulesengine.client.impl.SingleFactRulesEngineImpl.OrderMode;
+import net.bobosse.gwt.rulesengine.client.impl.commands.LogFactVerbRuleCommand;
+import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine;
+import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine.OrderMode;
+import net.bobosse.gwt.rulesengine.client.impl.rules.RegexRule;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -56,7 +59,7 @@ public class ScenarioTest {
 		RegexRule withRule = new RegexRule("with", "location");
 		withRule.addCommand(new LogFactVerbRuleCommand("triggers"));
 
-		SingleFactRulesEngineImpl engine = new SingleFactRulesEngineImpl(OrderMode.INSERT);
+		SingleFactRulesEngine engine = new SingleFactRulesEngine(OrderMode.INSERT);
 		engine.addRule(lcRule);
 		engine.addRule(domainRule);
 		engine.addRule(instanceRule);

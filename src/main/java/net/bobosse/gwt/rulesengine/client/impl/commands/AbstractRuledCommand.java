@@ -1,4 +1,4 @@
-package net.bobosse.gwt.rulesengine.client.impl;
+package net.bobosse.gwt.rulesengine.client.impl.commands;
 
 import net.bobosse.gwt.rulesengine.client.Rule;
 import net.bobosse.gwt.rulesengine.client.RuledCommand;
@@ -12,7 +12,7 @@ import com.allen_sauer.gwt.log.client.Log;
  * @author sesa202001
  * 
  */
-public abstract class AbstractRuledCommandImpl implements RuledCommand
+public abstract class AbstractRuledCommand implements RuledCommand
 {
 	private Rule rule;
 

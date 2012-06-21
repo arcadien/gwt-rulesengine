@@ -1,4 +1,4 @@
-package net.bobosse.gwt.rulesengine.client.impl;
+package net.bobosse.gwt.rulesengine.client.impl.commands;
 
 import net.bobosse.gwt.rulesengine.client.Report;
 
@@ -13,7 +13,7 @@ import net.bobosse.gwt.rulesengine.client.Report;
  * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
  * 
  */
-public class LogFactVerbRuleCommand extends AbstractRuledCommandImpl {
+public class LogFactVerbRuleCommand extends AbstractRuledCommand {
 
 	String verb;
 

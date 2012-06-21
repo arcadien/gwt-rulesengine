@@ -1,4 +1,4 @@
-package net.bobosse.gwt.rulesengine.client.impl;
+package net.bobosse.gwt.rulesengine.client.impl.rules;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +10,14 @@ import net.bobosse.gwt.rulesengine.client.RuledCommand;
 import com.google.gwt.user.client.Command;
 
 /**
- * {@link AbstractRuleImpl} implements action, active status, name and salience
+ * {@link AbstractRule} implements action, active status, name and salience
  * manipulation. The rest is for subclasses, ie <code>execute()</code> interface
  * method.
  * 
  * @author sesa202001
  * 
  */
-public abstract class AbstractRuleImpl implements Rule {
+public abstract class AbstractRule implements Rule {
 
 	private String name;
 	private final List<RuledCommand> actions = new ArrayList<RuledCommand>();
@@ -26,7 +26,7 @@ public abstract class AbstractRuleImpl implements Rule {
 	private Object fact;
 	private Report context;
 
-	public AbstractRuleImpl(String name, int salience) {
+	public AbstractRule(String name, int salience) {
 		this.name = name;
 		this.salience = salience;
 	}

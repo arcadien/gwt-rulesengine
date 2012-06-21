@@ -3,6 +3,8 @@ package net.bobosse.gwt.rulesengine.client.impl;
 import static org.junit.Assert.*;
 
 import net.bobosse.gwt.rulesengine.client.Report;
+import net.bobosse.gwt.rulesengine.client.impl.commands.LogFactVerbRuleCommand;
+import net.bobosse.gwt.rulesengine.client.impl.rules.RegexRule;
 
 import org.junit.Test;
 
