@@ -7,6 +7,7 @@ import net.bobosse.gwt.rulesengine.client.Report;
 import net.bobosse.gwt.rulesengine.client.Rule;
 import net.bobosse.gwt.rulesengine.client.RuledCommand;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.Command;
 
 /**
@@ -25,7 +26,7 @@ public abstract class AbstractRule implements Rule
 	private int salience;
 	private boolean active;
 	private Object fact;
-	private Report context;
+	private Report report;
 
 	public AbstractRule (String name, int salience)
 	{
@@ -107,7 +108,17 @@ public abstract class AbstractRule implements Rule
 	@Override
 	public Object getFact()
 	{
-		return fact;
+		if(null == fact)
+		{
+			Log.error(this
+					+ " have fact set to null. Do you called setFact() in parent rule execute() method?");
+			Log.error(this + " Using brand new Object. Don't expect matches!");
+			return new Object();
+		}
+		else
+		{
+			return fact;
+		}
 	}
 
 	protected void setFact(Object fact)
@@ -117,13 +128,35 @@ public abstract class AbstractRule implements Rule
 
 	protected void setReport(Report context)
 	{
-		this.context = context;
+		this.report = context;
 	}
 
 	@Override
 	public Report getReport()
 	{
-		return context;
+		if(null == report)
+		{
+			Log.error(this
+					+ " have no report set. Do you called setReport() in parent rule execute() method?");
+			Log.error(this
+					+ " Reporting will be done in a temporary report and will be discarded");
+			return new Report()
+			{
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void add(int index, String element)
+				{
+				}
+			};
+		}
+		else
+		{
+			return report;
+		}
 	}
 
 }
