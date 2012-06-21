@@ -20,7 +20,7 @@
 	<scm>
 		<url>https://github.com/arcadien/gwt-rulesengine</url>
 		<connection>scm:git://github.com/arcadien/gwt-rulesengine.git</connection>
-		<developerConnection>scm:ssh:git@github.com:arcadien/gwt-rulesengine.git</developerConnection>
+		<developerConnection>scm:git:ssh:git@github.com:arcadien/gwt-rulesengine.git</developerConnection>
 	</scm>
 
 	<developers>
