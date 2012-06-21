@@ -10,7 +10,10 @@ import com.google.gwt.regexp.shared.RegExp;
 
 /**
  * {@link RegexRule} is based on regex pattern. If pattern matches with the
- * processed fact (after a toString()), then its actions will be fired.
+ * processed fact (after a toString()), then its actions will be fired. <br />
+ * 
+ * Here is an online JS regex tester :
+ * http://www.regular-expressions.info/javascriptexample.html
  * 
  * @author sesa202001
  * 
