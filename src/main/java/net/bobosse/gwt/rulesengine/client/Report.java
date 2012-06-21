@@ -2,7 +2,8 @@ package net.bobosse.gwt.rulesengine.client;
 
 import java.util.ArrayList;
 
-public class Report extends ArrayList<String> {
+public class Report extends ArrayList<String>
+{
 
 	/**
 	 * 

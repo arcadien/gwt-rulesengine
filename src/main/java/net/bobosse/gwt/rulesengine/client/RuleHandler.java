@@ -2,11 +2,11 @@ package net.bobosse.gwt.rulesengine.client;
 
 /**
  * 
- * Keep a reference on {@link Rule} to let it be
- * removed from {@link RulesEngine}.
+ * Keep a reference on {@link Rule} to let it be removed from
+ * {@link RulesEngine}.
  * 
  * @author sesa202001
- *
+ * 
  */
 public interface RuleHandler
 {
@@ -20,5 +20,5 @@ public interface RuleHandler
 	 * @return backed {@link Rule}
 	 */
 	public Rule getRule();
-	
+
 }

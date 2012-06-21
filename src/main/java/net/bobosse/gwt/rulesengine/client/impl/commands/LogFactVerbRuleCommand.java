@@ -13,7 +13,8 @@ import net.bobosse.gwt.rulesengine.client.Report;
  * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
  * 
  */
-public class LogFactVerbRuleCommand extends AbstractRuledCommand {
+public class LogFactVerbRuleCommand extends AbstractRuledCommand
+{
 
 	String verb;
 
@@ -25,14 +26,17 @@ public class LogFactVerbRuleCommand extends AbstractRuledCommand {
 	 *            Here, verb is "plays".
 	 * 
 	 */
-	public LogFactVerbRuleCommand(String verb) {
+	public LogFactVerbRuleCommand (String verb)
+	{
 		this.verb = verb;
 	}
 
 	@Override
-	public void execute() {
+	public void execute()
+	{
 		getRule().getReport().add(
-				"'" + getRule().getFact() + "' " + verb + " '"+getRule().getName()+"'");
+				"'" + getRule().getFact() + "' " + verb + " '"
+						+ getRule().getName() + "'");
 
 	}
 }

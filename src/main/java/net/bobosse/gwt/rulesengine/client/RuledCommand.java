@@ -2,8 +2,8 @@ package net.bobosse.gwt.rulesengine.client;
 
 import com.google.gwt.user.client.Command;
 
-
-public interface RuledCommand extends Command {
+public interface RuledCommand extends Command
+{
 	/**
 	 * Set rule that may trigger this action
 	 * 

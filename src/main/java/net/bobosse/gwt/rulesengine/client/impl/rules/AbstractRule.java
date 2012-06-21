@@ -17,7 +17,8 @@ import com.google.gwt.user.client.Command;
  * @author sesa202001
  * 
  */
-public abstract class AbstractRule implements Rule {
+public abstract class AbstractRule implements Rule
+{
 
 	private String name;
 	private final List<RuledCommand> actions = new ArrayList<RuledCommand>();
@@ -26,13 +27,15 @@ public abstract class AbstractRule implements Rule {
 	private Object fact;
 	private Report context;
 
-	public AbstractRule(String name, int salience) {
+	public AbstractRule (String name, int salience)
+	{
 		this.name = name;
 		this.salience = salience;
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
@@ -40,72 +43,86 @@ public abstract class AbstractRule implements Rule {
 	 * call each {@link RuledCommand} <code>execute()</code> method
 	 */
 	@Override
-	public final void executeCommands() {
-		for (Command command : getCommands()) {
+	public final void executeCommands()
+	{
+		for(Command command: getCommands())
+		{
 			command.execute();
 		}
 	}
 
 	@Override
-	public final boolean addCommand(RuledCommand action) {
+	public final boolean addCommand(RuledCommand action)
+	{
 		action.setRule(this);
 		return this.actions.add(action);
 	}
 
 	@Override
-	public final boolean removeCommand(RuledCommand action) {
+	public final boolean removeCommand(RuledCommand action)
+	{
 		return this.actions.remove(action);
 	}
 
 	@Override
-	public final List<RuledCommand> getCommands() {
+	public final List<RuledCommand> getCommands()
+	{
 		return this.actions;
 	}
 
 	@Override
-	public int getSalience() {
+	public int getSalience()
+	{
 		return salience;
 	}
 
 	@Override
-	public boolean isActive() {
+	public boolean isActive()
+	{
 		return active;
 	}
 
 	@Override
-	public boolean activate() {
+	public boolean activate()
+	{
 		boolean oldState = active;
 		active = true;
 		return oldState;
 	}
 
 	@Override
-	public boolean passivate() {
+	public boolean passivate()
+	{
 		boolean oldState = active;
 		active = false;
 		return oldState;
 	}
 
 	@Override
-	public void clearCommands() {
+	public void clearCommands()
+	{
 		actions.clear();
 	}
 
 	@Override
-	public Object getFact() {
+	public Object getFact()
+	{
 		return fact;
 	}
 
-	protected void setFact(Object fact) {
+	protected void setFact(Object fact)
+	{
 		this.fact = fact;
 	}
 
-	protected void setReport(Report context) {
+	protected void setReport(Report context)
+	{
 		this.context = context;
 	}
 
 	@Override
-	public Report getReport() {
+	public Report getReport()
+	{
 		return context;
 	}
 

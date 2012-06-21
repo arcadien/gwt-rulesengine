@@ -10,15 +10,16 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ScenarioTest {
+public class ScenarioTest
+{
 
-	
 	@BeforeClass
-	public static void initLog(){
+	public static void initLog()
+	{
 
-//		  Log.addLogger(new ConsoleLogger());
-//		  Log.setCurrentLogLevel(Log.LOG_LEVEL_DEBUG);
-	} 
+		// Log.addLogger(new ConsoleLogger());
+		// Log.setCurrentLogLevel(Log.LOG_LEVEL_DEBUG);
+	}
 
 	/**
 	 * 
@@ -29,7 +30,8 @@ public class ScenarioTest {
 	 * - If action occurs, log success
 	 */
 	@Test
-	public void testScenario() {
+	public void testScenario()
+	{
 
 		// "a" rule propose targets
 		// trigger lowercase rule
@@ -59,7 +61,8 @@ public class ScenarioTest {
 		RegexRule withRule = new RegexRule("with", "location");
 		withRule.addCommand(new LogFactVerbRuleCommand("triggers"));
 
-		SingleFactRulesEngine engine = new SingleFactRulesEngine(OrderMode.INSERT);
+		SingleFactRulesEngine engine = new SingleFactRulesEngine(
+				OrderMode.INSERT);
 		engine.addRule(lcRule);
 		engine.addRule(domainRule);
 		engine.addRule(instanceRule);
@@ -78,7 +81,7 @@ public class ScenarioTest {
 
 		Report ctx = engine.getReport();
 		engine.clearReport();
-		
+
 		// token1
 		// trigger lowercase rule
 		Assert.assertTrue("#1 'a' must trigger rule : lowercase",

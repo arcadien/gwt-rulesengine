@@ -12,26 +12,32 @@ import net.bobosse.gwt.rulesengine.client.impl.rules.NullOrEmptyRule;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class NullOrEmptyRuleImplTest {
+public class NullOrEmptyRuleImplTest
+{
 
-	private class LogRuleAction extends AbstractRuledCommand {
+	private class LogRuleAction extends AbstractRuledCommand
+	{
 
 		private ArrayList<Rule> matched;
 
-		public LogRuleAction(ArrayList<Rule> matched) {
+		public LogRuleAction (ArrayList<Rule> matched)
+		{
 			this.matched = matched;
 		}
 
 		@Override
-		public void execute() {
+		public void execute()
+		{
 			matched.add(getRule());
 		}
 	}
 
 	@Test
-	public void testMatch() {
+	public void testMatch()
+	{
 
-		SingleFactRulesEngine engine = new SingleFactRulesEngine(OrderMode.INSERT);
+		SingleFactRulesEngine engine = new SingleFactRulesEngine(
+				OrderMode.INSERT);
 
 		final ArrayList<Rule> matchedRules = new ArrayList<Rule>();
 

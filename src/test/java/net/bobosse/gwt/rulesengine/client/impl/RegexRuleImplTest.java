@@ -12,36 +12,42 @@ import net.bobosse.gwt.rulesengine.client.impl.rules.RegexRule;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class RegexRuleImplTest {
+public class RegexRuleImplTest
+{
 
-	private class LogRuleAction extends AbstractRuledCommand {
+	private class LogRuleAction extends AbstractRuledCommand
+	{
 
 		private ArrayList<Rule> matched;
 
-		public LogRuleAction(ArrayList<Rule> matched) {
+		public LogRuleAction (ArrayList<Rule> matched)
+		{
 			this.matched = matched;
 		}
 
 		@Override
-		public void execute() {
+		public void execute()
+		{
 			matched.add(getRule());
 
 		}
 	}
 
 	@Test
-	public void testMatch() {
+	public void testMatch()
+	{
 
-		SingleFactRulesEngine engine = new SingleFactRulesEngine(OrderMode.INSERT);
+		SingleFactRulesEngine engine = new SingleFactRulesEngine(
+				OrderMode.INSERT);
 
 		final ArrayList<Rule> matchedRules = new ArrayList<Rule>();
 
-		RuleHandler handler = engine.addRule(new RegexRule(
-				"lower case only", "[a-z]", 100));
+		RuleHandler handler = engine.addRule(new RegexRule("lower case only",
+				"[a-z]", 100));
 		handler.getRule().addCommand(new LogRuleAction(matchedRules));
 
-		RuleHandler handler2 = engine.addRule(new RegexRule(
-				"upper case only", "[A-Z]", 100));
+		RuleHandler handler2 = engine.addRule(new RegexRule("upper case only",
+				"[A-Z]", 100));
 		handler2.getRule().addCommand(new LogRuleAction(matchedRules));
 
 		engine.processFact("i must match");

@@ -18,7 +18,7 @@ public abstract class AbstractRuledCommand implements RuledCommand
 
 	@Override
 	public void setRule(Rule rule)
-	{		
+	{
 		Log.debug(this + " linked to rule '" + rule + "'");
 		this.rule = rule;
 	}
@@ -30,7 +30,8 @@ public abstract class AbstractRuledCommand implements RuledCommand
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return super.toString();
 	}
 }

@@ -43,12 +43,11 @@ public interface Rule
 	public int getSalience();
 
 	/**
-	 * Execute business logic, using specific {@link Rule} implementation. This is the good
-	 * place to call <code>executeCommands()</code>.
+	 * Execute business logic, using specific {@link Rule} implementation. This
+	 * is the good place to call <code>executeCommands()</code>.
 	 */
 	void execute(Object fact, Report report);
 
-	
 	/**
 	 * 
 	 * 
@@ -87,7 +86,7 @@ public interface Rule
 	 * @return what is tested by this rule during current session
 	 */
 	public Object getFact();
-	
+
 	/**
 	 * 
 	 * @return
@@ -98,7 +97,5 @@ public interface Rule
 	 * call each {@link RuledCommand}'s <code>execute()</code> method
 	 */
 	void executeCommands();
-	
-	
-	
+
 }
