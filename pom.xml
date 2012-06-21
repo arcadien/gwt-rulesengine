@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -9,18 +8,18 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.bobosse.gwt</groupId>
+	<groupId>net.bobosse</groupId>
 	<artifactId>gwt-rulesengine</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.2-SNAPSHOT</version>
 	<name>GWT rules engine extensions</name>
 
 	<url>http://arcadien.github.com/gwt-rulesengine</url>
+
 	<scm>
 		<url>https://github.com/arcadien/gwt-rulesengine</url>
-		<connection>git://github.com/arcadien/gwt-rulesengine.git</connection>
-		<developerConnection>https://github.com/arcadien/gwt-rulesengine.git</developerConnection>
-
+		<connection>scm:git:git://github.com/arcadien/gwt-rulesengine.git</connection>
+		<developerConnection>scm:git:git@github.com:arcadien/gwt-rulesengine.git</developerConnection>
 	</scm>
 
 	<developers>
@@ -30,15 +29,7 @@
 			<timezone>GMT+1</timezone>
 		</developer>
 	</developers>
-
-	<properties>
-		<!-- Convenience property to set the GWT version -->
-		<gwtVersion>2.4.0</gwtVersion>
-		<!-- GWT needs at least java 1.5 -->
-		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
+	
 	<profiles>
 		<profile>
 			<id>release-sign-artifacts</id>
@@ -53,7 +44,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.1</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
@@ -68,6 +58,14 @@
 			</build>
 		</profile>
 	</profiles>
+	
+	<properties>
+		<!-- Convenience property to set the GWT version -->
+		<gwtVersion>2.4.0</gwtVersion>
+		<!-- GWT needs at least java 1.5 -->
+		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -195,5 +193,4 @@
 
 		</plugins>
 	</build>
-
 </project>

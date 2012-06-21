@@ -1,9 +1,6 @@
 package net.bobosse.gwt.rulesengine.client.impl;
 
-import java.util.List;
-
 import net.bobosse.gwt.rulesengine.client.Report;
-import net.bobosse.gwt.rulesengine.client.RuledCommand;
 
 /**
  * simple rule that matches if a fact or its <code>toString()</code> output is
@@ -14,8 +11,8 @@ import net.bobosse.gwt.rulesengine.client.RuledCommand;
  */
 public class NullOrEmptyRuleImpl extends AbstractRuleImpl {
 
-	public NullOrEmptyRuleImpl(String name, List<RuledCommand> actions, int salience) {
-		super(name, actions, salience);
+	public NullOrEmptyRuleImpl(String name, int salience) {
+		super(name, salience);
 	}
 
 	@Override

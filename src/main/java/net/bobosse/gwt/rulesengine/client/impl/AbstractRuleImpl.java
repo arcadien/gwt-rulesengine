@@ -26,20 +26,9 @@ public abstract class AbstractRuleImpl implements Rule {
 	private Object fact;
 	private Report context;
 
-	public AbstractRuleImpl(String name, List<RuledCommand> actions,
-			int salience) {
+	public AbstractRuleImpl(String name, int salience) {
 		this.name = name;
-		if (null != actions && actions.size() > 0) {
-			for (RuledCommand action : actions) {
-				action.setRule(this);
-			}
-			this.actions.addAll(actions);
-		}
 		this.salience = salience;
-	}
-
-	public AbstractRuleImpl(String name, List<RuledCommand> actions) {
-		this(name, actions, -1);
 	}
 
 	@Override

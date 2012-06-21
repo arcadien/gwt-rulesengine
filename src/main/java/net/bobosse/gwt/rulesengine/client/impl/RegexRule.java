@@ -1,24 +1,21 @@
 package net.bobosse.gwt.rulesengine.client.impl;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import net.bobosse.gwt.rulesengine.client.Report;
-import net.bobosse.gwt.rulesengine.client.RuledCommand;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
 /**
- * {@link RegexRuleImpl} is based on regex pattern. If pattern matches with the
+ * {@link RegexRule} is based on regex pattern. If pattern matches with the
  * processed fact (after a toString()), then its actions will be fired.
  * 
  * @author sesa202001
  * 
  */
-public class RegexRuleImpl extends AbstractRuleImpl
-{
+public class RegexRule extends AbstractRuleImpl {
 	private String pattern;
 
 	/**
@@ -34,27 +31,9 @@ public class RegexRuleImpl extends AbstractRuleImpl
 	 *            priority level ( -100 &lt; salience &gt; 100)
 	 * 
 	 */
-	public RegexRuleImpl (String name, String pattern,
-			List<RuledCommand> actions, int salience)
-	{
-		super(name, actions);
+	public RegexRule(String name, String pattern, int salience) {
+		super(name, salience);
 		this.pattern = pattern;
-	}
-
-	/**
-	 * Constructor without salience : default set to -1.
-	 * 
-	 * @param name
-	 *            rule's name
-	 * @param pattern
-	 *            rule's match pattern
-	 * @param actions
-	 *            to execute() when rule matches
-	 */
-	public RegexRuleImpl (String name, String pattern,
-			List<RuledCommand> actions)
-	{
-		this(name, pattern, actions, -1);
 	}
 
 	/**
@@ -66,9 +45,8 @@ public class RegexRuleImpl extends AbstractRuleImpl
 	 * @param pattern
 	 *            rule's match pattern
 	 */
-	public RegexRuleImpl (String name, String pattern)
-	{
-		this(name, pattern, null, -1);
+	public RegexRule(String name, String pattern) {
+		this(name, pattern, -1);
 	}
 
 	/**
@@ -77,44 +55,35 @@ public class RegexRuleImpl extends AbstractRuleImpl
 	 * @param string
 	 * @return list of string's matches, according to rule's pattern.
 	 */
-	protected ArrayList<String> getMatches(String string)
-	{
+	protected ArrayList<String> getMatches(String string) {
 		return getMatches(string, pattern);
 	}
 
 	@Override
-	public void execute(Object fact, Report context)
-	{
+	public void execute(Object fact, Report context) {
 		ArrayList<String> matches = new ArrayList<String>();
 		matches = getMatches(fact.toString(), pattern);
-		if(matches.size() > 0)
-		{
+		if (matches.size() > 0) {
 			Log.debug("'" + this + "' matched '" + fact + "'");
-			try
-			{
+			try {
 				setReport(context);
 				setFact(fact);
 				executeCommands();
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 			}
 		}
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return getName();
 	}
 
-	private ArrayList<String> getMatches(String input, String pattern)
-	{
+	private ArrayList<String> getMatches(String input, String pattern) {
 		ArrayList<String> matches = new ArrayList<String>();
 		RegExp regExp = RegExp.compile(pattern, "g");
-		for(MatchResult matcher = regExp.exec(input); matcher != null; matcher = regExp
-				.exec(input))
-		{
+		for (MatchResult matcher = regExp.exec(input); matcher != null; matcher = regExp
+				.exec(input)) {
 			matches.add(matcher.getGroup(0));
 		}
 		return matches;
