@@ -11,7 +11,7 @@
 	<groupId>net.bobosse</groupId>
 	<artifactId>gwt-rulesengine</artifactId>
 	<packaging>jar</packaging>
-	<version>0.2</version>
+	<version>0.2-SNAPSHOT</version>
 	<name>GWT rules engine extensions</name>
 
 	<url>http://arcadien.github.com/gwt-rulesengine</url>
