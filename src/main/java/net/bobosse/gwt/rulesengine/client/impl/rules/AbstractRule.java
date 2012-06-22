@@ -22,7 +22,11 @@ public abstract class AbstractRule implements Rule
 {
 
 	private String name;
+
 	private final List<RuledCommand> actions = new ArrayList<RuledCommand>();
+	private final List<Rule> followingRules = new ArrayList<Rule>();
+	private final List<Rule> preceedingRules = new ArrayList<Rule>();
+
 	private int salience;
 	private boolean active;
 	private Object fact;
@@ -159,4 +163,27 @@ public abstract class AbstractRule implements Rule
 		}
 	}
 
+	public void setFollowingRules(List<Rule> fRules)
+	{
+		followingRules.clear();
+		followingRules.addAll(fRules);
+	}
+
+	public void setPreceedingRules(List<Rule> pRules)
+	{
+		preceedingRules.clear();
+		preceedingRules.addAll(pRules);
+	}
+
+	@Override
+	public List<Rule> getFollowingRules()
+	{
+		return followingRules;
+	}
+
+	@Override
+	public List<Rule> getPreceedingRules()
+	{
+		return preceedingRules;
+	}
 }
