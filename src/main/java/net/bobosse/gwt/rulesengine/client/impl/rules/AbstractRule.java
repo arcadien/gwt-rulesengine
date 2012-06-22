@@ -176,13 +176,13 @@ public abstract class AbstractRule implements Rule
 	}
 
 	@Override
-	public List<Rule> getFollowingRules()
+	public List<Rule> getFollowing()
 	{
 		return followingRules;
 	}
 
 	@Override
-	public List<Rule> getPreceedingRules()
+	public List<Rule> getPreceeding()
 	{
 		return preceedingRules;
 	}

@@ -2,7 +2,7 @@ package net.bobosse.gwt.rulesengine.client;
 
 import java.util.List;
 
-public interface HasPreceeding
+public interface HasPreceeding<T>
 {
-	List<Rule> getPreceedingRules();
+	List<T> getPreceeding();
 }
