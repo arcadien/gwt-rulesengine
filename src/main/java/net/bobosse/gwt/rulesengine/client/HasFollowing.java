@@ -2,7 +2,7 @@ package net.bobosse.gwt.rulesengine.client;
 
 import java.util.List;
 
-public interface HasFollowing
+public interface HasFollowing<T>
 {
-	List<Rule> getFollowingRules();
+	List<T> getFollowing();
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * @author sesa202001
  * 
  */
-public interface Rule extends HasPreceeding, HasFollowing
+public interface Rule extends HasPreceeding<Rule>, HasFollowing<Rule>
 {
 
 	/**
