@@ -33,8 +33,7 @@ import com.google.gwt.regexp.shared.RegExp;
  * @author sesa202001
  * 
  */
-public class RegexRule extends AbstractRule
-{
+public class RegexRule extends AbstractRule {
 	private String pattern;
 
 	/**
@@ -50,8 +49,7 @@ public class RegexRule extends AbstractRule
 	 *            priority level ( -100 &lt; salience &gt; 100)
 	 * 
 	 */
-	public RegexRule (String name, String pattern, int salience)
-	{
+	public RegexRule(String name, String pattern, int salience) {
 		super(name, salience);
 		this.pattern = pattern;
 	}
@@ -65,8 +63,7 @@ public class RegexRule extends AbstractRule
 	 * @param pattern
 	 *            rule's match pattern
 	 */
-	public RegexRule (String name, String pattern)
-	{
+	public RegexRule(String name, String pattern) {
 		this(name, pattern, -1);
 	}
 
@@ -76,44 +73,34 @@ public class RegexRule extends AbstractRule
 	 * @param string
 	 * @return list of string's matches, according to rule's pattern.
 	 */
-	protected ArrayList<String> getMatches(String string)
-	{
+	protected ArrayList<String> getMatches(String string) {
 		return getMatches(string, pattern);
 	}
 
 	@Override
-	public void execute(Object fact, Report context)
-	{
+	public void execute(Object fact, Report context) {
 		ArrayList<String> matches = new ArrayList<String>();
 		matches = getMatches(fact.toString(), pattern);
-		if(matches.size() > 0)
-		{
+		if (matches.size() > 0) {
 			Log.debug("'" + this + "' matched '" + fact + "'");
-			try
-			{
-				setReport(context);
-				setFact(fact);
-				executeCommands();
-			}
-			catch (Exception e)
-			{
-			}
+
+			setReport(context);
+			setFact(fact);
+			executeCommands();
+
 		}
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return getName();
 	}
 
-	private ArrayList<String> getMatches(String input, String pattern)
-	{
+	private ArrayList<String> getMatches(String input, String pattern) {
 		ArrayList<String> matches = new ArrayList<String>();
 		RegExp regExp = RegExp.compile(pattern, "g");
-		for(MatchResult matcher = regExp.exec(input); matcher != null; matcher = regExp
-				.exec(input))
-		{
+		for (MatchResult matcher = regExp.exec(input); matcher != null; matcher = regExp
+				.exec(input)) {
 			matches.add(matcher.getGroup(0));
 		}
 		return matches;

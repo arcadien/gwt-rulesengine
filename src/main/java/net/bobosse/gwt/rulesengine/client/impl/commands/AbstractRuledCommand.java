@@ -43,10 +43,4 @@ public abstract class AbstractRuledCommand implements RuledCommand
 	{
 		return rule;
 	}
-
-	@Override
-	public String toString()
-	{
-		return super.toString();
-	}
 }
