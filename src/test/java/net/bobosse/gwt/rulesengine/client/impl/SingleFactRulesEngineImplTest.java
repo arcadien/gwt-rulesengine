@@ -26,12 +26,10 @@ import net.bobosse.gwt.rulesengine.client.impl.rules.RegexRule;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SingleFactRulesEngineImplTest
-{
+public class SingleFactRulesEngineImplTest {
 
 	@Test
-	public void testAddRule()
-	{
+	public void testAddRule() {
 		SingleFactRulesEngine engine = new SingleFactRulesEngine(
 				OrderMode.INSERT);
 
@@ -41,8 +39,7 @@ public class SingleFactRulesEngineImplTest
 	}
 
 	@Test
-	public void testDispose()
-	{
+	public void testDispose() {
 
 		SingleFactRulesEngine engine = new SingleFactRulesEngine(
 				OrderMode.INSERT);
@@ -59,25 +56,97 @@ public class SingleFactRulesEngineImplTest
 	}
 
 	@Test
-	public void testSalienceEvaluation()
+	public void testRulesSortingModeInsert()
 	{
 		SingleFactRulesEngine engine = new SingleFactRulesEngine(
 				OrderMode.INSERT);
 
-		List<RegexRule> rules = (java.util.Arrays.asList(new RegexRule[] {
-				new RegexRule("third", "[a-z]", 10),
-				new RegexRule("second", "[a-z]", -1),
-				new RegexRule("first", "[a-z]", -100),
-				new RegexRule("fourth", "[a-z]", 100) }));
+		RegexRule first = new RegexRule("first", "[a-z]", -100);
+		RegexRule second = new RegexRule("second", "[a-z]", -1);
+		RegexRule third = new RegexRule("third", "[a-z]", 10);
+		RegexRule fourth=new RegexRule("fourth", "[a-z]", 100);
+		RegexRule fifth=new RegexRule("fifth", "[a-z]", 10);
+		List<RegexRule> mixed = (java.util.Arrays.asList(new RegexRule[] {
+				second,
+				fourth,
+				first,
+				third,
+				fifth}));
 
-		engine.addRule(rules.get(0));
-		engine.addRule(rules.get(1));
-		engine.addRule(rules.get(2));
-		engine.addRule(rules.get(3));
-
+		engine.addRule(mixed.get(0));
+		engine.addRule(mixed.get(1));
+		engine.addRule(mixed.get(2));
+		engine.addRule(mixed.get(3));
+		engine.addRule(mixed.get(4));
+		
 		List<Rule> sortedRules = engine.getRules();
 
-		// Assert.assertEquals(1, engine.getRules().size());
+		Assert.assertEquals(mixed, sortedRules);
 	}
+	
+	@Test
+	public void testRulesSortingModeSalience()
+	{
+		SingleFactRulesEngine engine = new SingleFactRulesEngine(
+				OrderMode.SALIENCE);
 
+		RegexRule first = new RegexRule("first", "[a-z]", -100);
+		RegexRule second = new RegexRule("second", "[a-z]", -1);
+		RegexRule third = new RegexRule("third", "[a-z]", 10);
+		RegexRule fourth=new RegexRule("fourth", "[a-z]", 10);
+		RegexRule fifth=new RegexRule("fifth", "[a-z]", 100);
+		
+		engine.addRule(second);
+		engine.addRule(third);
+		engine.addRule(fourth);
+		engine.addRule(first);
+		engine.addRule(fifth);
+		
+		List<RegexRule> sorted = (java.util.Arrays.asList(new RegexRule[] {
+				first,
+				second,
+				third,
+				fourth,
+				fifth}));
+		
+		List<Rule> sortedRules = engine.getRules();
+
+		Assert.assertEquals(sorted, sortedRules);
+	}
+	
+	
+	@Test
+	public void removeRule()
+	{
+		SingleFactRulesEngine engine = new SingleFactRulesEngine(
+				OrderMode.SALIENCE);
+
+		RegexRule first = new RegexRule("first", "[a-z]", -100);
+		RegexRule second = new RegexRule("second", "[a-z]", -1);
+		RegexRule third = new RegexRule("third", "[a-z]", 10);
+		RegexRule fourth=new RegexRule("fourth", "[a-z]", 10);
+		RegexRule fifth=new RegexRule("fifth", "[a-z]", 100);
+		
+		engine.addRule(second);
+		RuleHandler handler = engine.addRule(third);
+		engine.addRule(fourth);
+		engine.addRule(first);
+		engine.addRule(fifth);
+		
+		handler.dispose();
+		
+		List<RegexRule> expect = (java.util.Arrays.asList(new RegexRule[] {
+				first,
+				second,
+				fourth,
+				fifth}));
+		
+		List<Rule> sortedRules = engine.getRules();
+
+		Assert.assertEquals(expect, sortedRules);
+	}
+	
+	
+	
+	
 }

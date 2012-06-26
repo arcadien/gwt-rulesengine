@@ -22,19 +22,18 @@ import net.bobosse.gwt.rulesengine.client.Report;
 import net.bobosse.gwt.rulesengine.client.Rule;
 import net.bobosse.gwt.rulesengine.client.RuledCommand;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.Command;
 
 /**
  * {@link AbstractRule} implements action, active status, name and salience
  * manipulation. The rest is for subclasses, ie <code>execute()</code> interface
- * method.
+ * method.<br />
+ * This implementation creates active {@link Rule} by default.
  * 
  * @author sesa202001
  * 
  */
-public abstract class AbstractRule implements Rule
-{
+public abstract class AbstractRule implements Rule {
 
 	private String name;
 
@@ -43,19 +42,22 @@ public abstract class AbstractRule implements Rule
 	private final List<Rule> preceedingRules = new ArrayList<Rule>();
 
 	private int salience;
-	private boolean active;
+
+	/**
+	 * Rules are created active.
+	 */
+	private boolean active = true;
+
 	private Object fact;
 	private Report report;
 
-	public AbstractRule (String name, int salience)
-	{
+	public AbstractRule(String name, int salience) {
 		this.name = name;
 		this.salience = salience;
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
@@ -63,142 +65,106 @@ public abstract class AbstractRule implements Rule
 	 * call each {@link RuledCommand} <code>execute()</code> method
 	 */
 	@Override
-	public final void executeCommands()
-	{
-		for(Command command: getCommands())
-		{
+	public final void executeCommands() {
+		for (Command command : getCommands()) {
 			command.execute();
 		}
 	}
 
 	@Override
-	public final boolean addCommand(RuledCommand action)
-	{
+	public final boolean addCommand(RuledCommand action) {
 		action.setRule(this);
 		return this.actions.add(action);
 	}
 
 	@Override
-	public final boolean removeCommand(RuledCommand action)
-	{
+	public final boolean removeCommand(RuledCommand action) {
 		return this.actions.remove(action);
 	}
 
 	@Override
-	public final List<RuledCommand> getCommands()
-	{
+	public final List<RuledCommand> getCommands() {
 		return this.actions;
 	}
 
 	@Override
-	public int getSalience()
-	{
+	public int getSalience() {
 		return salience;
 	}
 
 	@Override
-	public boolean isActive()
-	{
+	public boolean isActive() {
 		return active;
 	}
 
 	@Override
-	public boolean activate()
-	{
+	public boolean activate() {
 		boolean oldState = active;
 		active = true;
 		return oldState;
 	}
 
 	@Override
-	public boolean passivate()
-	{
+	public boolean passivate() {
 		boolean oldState = active;
 		active = false;
 		return oldState;
 	}
 
 	@Override
-	public void clearCommands()
-	{
+	public void clearCommands() {
 		actions.clear();
 	}
 
 	@Override
-	public Object getFact()
-	{
-		if(null == fact)
-		{
-			Log.error(this
-					+ " have fact set to null. Do you called setFact() in parent rule execute() method?");
-			Log.error(this + " Using brand new Object. Don't expect matches!");
-			return new Object();
-		}
-		else
-		{
+	public Object getFact() {
+		if (null == fact) {
+			throw new IllegalStateException(
+					this
+							+ " have fact set to null. Do you called setFact() in parent rule execute() method?");
+		} else {
 			return fact;
 		}
 	}
 
-	protected void setFact(Object fact)
-	{
+	protected void setFact(Object fact) {
 		this.fact = fact;
 	}
 
-	protected void setReport(Report context)
-	{
+	protected void setReport(Report context) {
 		this.report = context;
 	}
 
 	@Override
-	public Report getReport()
-	{
-		if(null == report)
-		{
-			Log.error(this
-					+ " have no report set. Do you called setReport() in parent rule execute() method?");
-			Log.error(this
-					+ " Reporting will be done in a temporary report and will be discarded");
-			return new Report()
-			{
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void add(int index, String element)
-				{
-				}
-			};
-		}
-		else
-		{
+	public Report getReport() {
+		if (null == report) {
+			throw new IllegalStateException(
+					this
+							+ " have no report set. Do you called setReport() in parent rule execute() method?");
+		} else {
 			return report;
 		}
 	}
 
-	public void setFollowingRules(List<Rule> fRules)
-	{
+	public void setFollowingRules(List<Rule> fRules) {
 		followingRules.clear();
 		followingRules.addAll(fRules);
 	}
 
-	public void setPreceedingRules(List<Rule> pRules)
-	{
+	public void setPreceedingRules(List<Rule> pRules) {
 		preceedingRules.clear();
 		preceedingRules.addAll(pRules);
 	}
 
 	@Override
-	public List<Rule> getFollowing()
-	{
+	public List<Rule> getFollowing() {
 		return followingRules;
 	}
 
 	@Override
-	public List<Rule> getPreceeding()
-	{
+	public List<Rule> getPreceeding() {
 		return preceedingRules;
 	}
+	
+	
 }

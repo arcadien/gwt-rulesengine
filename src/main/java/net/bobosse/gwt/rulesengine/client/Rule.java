@@ -24,8 +24,7 @@ import java.util.List;
  * @author sesa202001
  * 
  */
-public interface Rule extends HasPreceeding<Rule>, HasFollowing<Rule>
-{
+public interface Rule extends HasPreceeding<Rule>, HasFollowing<Rule> {
 
 	/**
 	 * Add an {@link RuledCommand} to fire when rule matches
@@ -98,13 +97,15 @@ public interface Rule extends HasPreceeding<Rule>, HasFollowing<Rule>
 
 	/**
 	 * 
-	 * @return what is tested by this rule during current session
+	 * @return what is tested by this rule during current session. If null,
+	 *         throw an {@link IllegalStateException}.
 	 */
 	public Object getFact();
 
 	/**
 	 * 
-	 * @return
+	 * @return where processing information should be stored. As this is
+	 *         mandatory, throw an {@link IllegalStateException} if null.
 	 */
 	public Report getReport();
 
