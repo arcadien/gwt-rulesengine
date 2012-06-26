@@ -58,6 +58,61 @@
 				</plugins>
 			</build>
 		</profile>
+		<!-- Profile used when checking/updating license and file header -->
+		<profile>
+			<id>legalProcess</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.mycila.maven-license-plugin</groupId>
+						<artifactId>maven-license-plugin</artifactId>
+						<version>1.10.b1</version>
+						<inherited>false</inherited>
+						<configuration>
+							<strictCheck>true</strictCheck>
+							<basedir>${basedir}</basedir>
+							<header>${basedir}/license/headerTemplate.txt</header>
+							<quiet>false</quiet>
+							<failIfMissing>true</failIfMissing>
+							<aggregate>true</aggregate>
+							<includes>
+								<include>**/src/**</include>
+								<include>**/test/**</include>
+							</includes>
+							<excludes>
+								<exclude>license/**</exclude>
+								<exclude>target/**</exclude>
+								<exclude>misc/**</exclude>
+							</excludes>
+							<useDefaultExcludes>true</useDefaultExcludes>
+							<mapping>
+								<jwc>XML_STYLE</jwc>
+								<application>XML_STYLE</application>
+								<myFileExtension>JAVADOC_STYLE</myFileExtension>
+							</mapping>
+							<useDefaultMapping>true</useDefaultMapping>
+							<properties>
+								<year>2012</year>
+								<email>aurelien.labrosse@gmail.com</email>
+								<name>Aurélien Labrosse</name>
+							</properties>
+							<encoding>UTF-8</encoding>
+							<headerDefinitions>
+							</headerDefinitions>
+						</configuration>
+						<executions>
+							<execution>
+								<id>check-headers</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 	<properties>
