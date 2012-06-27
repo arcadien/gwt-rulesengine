@@ -110,7 +110,13 @@ public class SingleFactRulesEngine implements RulesEngine {
 		this.report = new Report();
 		this.mode = mode;
 	}
-
+	
+	
+	public SingleFactRulesEngine(OrderMode mode, Report report) {
+		this.report = report;
+		this.mode = mode;
+	}
+	
 	@Override
 	public RuleHandler addRule(Rule rule) {
 		RuleHandlerImpl handler = new RuleHandlerImpl(rule, this);
