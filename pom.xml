@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -12,9 +13,27 @@
 	<artifactId>gwt-rulesengine</artifactId>
 	<packaging>jar</packaging>
 	<version>0.4-SNAPSHOT</version>
-	<name>A lightweight rule engine for GWT</name>
+
+	<name>GWT RulesEngine</name>
+	<description>A lightweight rule engine for GWT</description>
+	<inceptionYear>2012</inceptionYear>
+	<ciManagement>
+		<system>Jenkins</system>
+	</ciManagement>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/arcadien/gwt-rulesengine/issues</url>
+	</issueManagement>
 
 	<url>http://arcadien.github.com/gwt-rulesengine</url>
+
+	<licenses>
+		<license>
+			<distribution>repo</distribution>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
 
 	<scm>
 		<url>https://github.com/arcadien/gwt-rulesengine</url>
