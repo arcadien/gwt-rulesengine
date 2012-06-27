@@ -15,6 +15,7 @@
  */
 package net.bobosse.gwt.rulesengine.client.impl.engines;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,7 +48,13 @@ public class AbstractRulesEngine implements RulesEngine {
 	 * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
 	 * 
 	 */
-	private static class RuleSalienceComparator implements Comparator<Rule> {
+	private static class RuleSalienceComparator implements Comparator<Rule>,
+			Serializable {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6749347239721865601L;
 
 		@Override
 		public int compare(Rule o1, Rule o2) {
