@@ -201,7 +201,7 @@ public class SingleFactRulesEngine implements RulesEngine {
 
 	@Override
 	public void clearReport() {
-		report = new Report();
+		report.clear();
 
 	}
 
