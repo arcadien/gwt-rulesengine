@@ -22,19 +22,26 @@ import net.bobosse.gwt.rulesengine.client.RulesEngine;
 import com.allen_sauer.gwt.log.client.Log;
 
 /**
- * This basic {@link RulesEngine} implementation calls each {@link Rule} in
- * sequence, in the order mode specified when creating a new session.
+ * This basic {@link RulesEngine} implementation first calls the first
+ * {@link Rule}. If {@link Rule} matches something in the <i>fact</i>, then this
+ * match is "consumed" and a Match entry is recorded in the report.<br />
+ * <code>execute()</code> then returns a list of potential {@link Rule} to
+ * execute. This process continue until all <i>fact</i> is consumed or not
+ * following {@link Rule} is specified in report.
  * 
  * 
  * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
  * 
  */
-public class SingleFactRulesEngine extends AbstractRulesEngine {
-	
+public class StringAnalysisRulesEngine extends AbstractRulesEngine {
+
+
+	@Override
 	public void processFact(Object fact, Report report, OrderMode mode) {
 		for (Rule rule : getRules(mode)) {
 			Log.debug("#processFact() executes rule " + rule);
 			rule.execute(fact, report);
+			throw new IllegalStateException("Not implemented yet");
 		}
 	}
 

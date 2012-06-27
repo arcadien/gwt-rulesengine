@@ -30,7 +30,7 @@ import com.google.gwt.user.client.Command;
  * method.<br />
  * This implementation creates active {@link Rule} by default.
  * 
- * @author sesa202001
+ * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
  * 
  */
 public abstract class AbstractRule implements Rule {
@@ -119,9 +119,9 @@ public abstract class AbstractRule implements Rule {
 	@Override
 	public Object getFact() {
 		if (null == fact) {
-			throw new IllegalStateException(
+			throw new IllegalStateException("Rule '" +
 					this
-							+ " have fact set to null. Do you called setFact() in parent rule execute() method?");
+							+ "' have fact set to null. Do you called setFact() in parent rule execute() method?");
 		} else {
 			return fact;
 		}
@@ -138,9 +138,9 @@ public abstract class AbstractRule implements Rule {
 	@Override
 	public Report getReport() {
 		if (null == report) {
-			throw new IllegalStateException(
+			throw new IllegalStateException("Rule '" +
 					this
-							+ " have no report set. Do you called setReport() in parent rule execute() method?");
+							+ "' have no report set. Do you called setReport() in parent rule execute() method?");
 		} else {
 			return report;
 		}
@@ -162,9 +162,8 @@ public abstract class AbstractRule implements Rule {
 	}
 
 	@Override
-	public List<Rule> getPreceeding() {
+	public List<Rule> getPreceding() {
 		return preceedingRules;
 	}
-	
-	
+
 }

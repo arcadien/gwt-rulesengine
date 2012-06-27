@@ -21,10 +21,21 @@ import java.util.List;
  * A Rule process a fact (Object), and according to filters, may fire some
  * actions.<br />
  * 
- * @author sesa202001
- * 
+ * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
  */
-public interface Rule extends HasPreceeding<Rule>, HasFollowing<Rule> {
+public interface Rule {
+
+	/**
+	 * 
+	 * @return
+	 */
+	List<Rule> getFollowing();
+
+	/**
+	 * 
+	 * @return preceding
+	 */
+	List<Rule> getPreceding();
 
 	/**
 	 * Add an {@link RuledCommand} to fire when rule matches
@@ -58,7 +69,14 @@ public interface Rule extends HasPreceeding<Rule>, HasFollowing<Rule> {
 
 	/**
 	 * Execute business logic, using specific {@link Rule} implementation. This
-	 * is the good place to call <code>executeCommands()</code>.
+	 * is the good place to call <code>executeCommands()</code>. As {@link Rule}
+	 * may be processed many times, {@link Report}, which should be from a
+	 * {@link RulesEngine} which hold current rule, is passed each time a new
+	 * fact is processed.<br />
+	 * In this method, it is greatly encouraged to immediately call
+	 * <code>Rule#setFact()</code>, to avoid a {@link NullPointerException} if a
+	 * {@link RuledCommand} tries an access to it.
+	 * 
 	 */
 	void execute(Object fact, Report report);
 

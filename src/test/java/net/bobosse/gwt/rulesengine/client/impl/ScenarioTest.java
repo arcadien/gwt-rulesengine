@@ -16,6 +16,7 @@
 package net.bobosse.gwt.rulesengine.client.impl;
 
 import net.bobosse.gwt.rulesengine.client.Report;
+import net.bobosse.gwt.rulesengine.client.Session;
 import net.bobosse.gwt.rulesengine.client.RulesEngine.OrderMode;
 import net.bobosse.gwt.rulesengine.client.impl.commands.LogFactVerbRuleCommand;
 import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine;
@@ -76,66 +77,68 @@ public class ScenarioTest
 		RegexRule withRule = new RegexRule("with", "location");
 		withRule.addCommand(new LogFactVerbRuleCommand("triggers"));
 
-		SingleFactRulesEngine engine = new SingleFactRulesEngine(
-				OrderMode.INSERT);
+		SingleFactRulesEngine engine = new SingleFactRulesEngine();
 		engine.addRule(lcRule);
 		engine.addRule(domainRule);
 		engine.addRule(instanceRule);
 		engine.addRule(withRule);
 
+		Report report = new Report();
+		
+		Session session = engine.createStatelessSession(OrderMode.INSERT, report);
+		
 		System.out.println("---------- <token1> -----------");
-		engine.processFact(token1);
+		session.processFact(token1);
 		System.out.println("---------- <token2> -----------");
-		engine.processFact(token2);
+		session.processFact(token2);
 		System.out.println("---------- <token3> -----------");
-		engine.processFact(token3);
+		session.processFact(token3);
 		System.out.println("---------- <token4> -----------");
-		engine.processFact(token4);
+		session.processFact(token4);
 		System.out.println("---------- <token5> -----------");
-		engine.processFact(token5);
+		session.processFact(token5);
 
-		Report ctx = engine.getReport();
 		
 		// token1
 		// trigger lowercase rule
 		Assert.assertTrue("#1 'a' must trigger rule : lowercase",
-				ctx.contains("'a' triggers 'lowercase'"));
+				report.contains("'a' triggers 'lowercase'"));
 
 		// token 2
 		// trigger lowercase rule
 		Assert.assertTrue("#2 'tar' must trigger rule : lowercase",
-				ctx.contains("'tar' triggers 'lowercase'"));
+				report.contains("'tar' triggers 'lowercase'"));
 
 		// token 3
 		// trigger lowercase rule, domain rule
 		Assert.assertTrue("#3 '" + token3 + "' must trigger rule : lowercase",
-				ctx.contains("'" + token3 + "' triggers 'lowercase'"));
+				report.contains("'" + token3 + "' triggers 'lowercase'"));
 		Assert.assertTrue("#3 '" + token3 + "' must trigger rule : domain",
-				ctx.contains("'" + token3 + "' triggers 'domain'"));
+				report.contains("'" + token3 + "' triggers 'domain'"));
 
 		// token 4
 		// trigger lowercase , domain , instance
 		Assert.assertTrue("#4 '" + token4 + "' must trigger rule : lowercase",
-				ctx.contains("'" + token4 + "' triggers 'lowercase'"));
+				report.contains("'" + token4 + "' triggers 'lowercase'"));
 
 		Assert.assertTrue("#4 '" + token4 + "' must trigger rule :domain",
-				ctx.contains("'" + token4 + "' triggers 'domain'"));
+				report.contains("'" + token4 + "' triggers 'domain'"));
 
 		Assert.assertTrue("#4 '" + token4 + "' must trigger rule : instance",
-				ctx.contains("'" + token4 + "' triggers 'instance'"));
+				report.contains("'" + token4 + "' triggers 'instance'"));
 
 		// token 5
 		// trigger lowercase , domain , instance , with
 		Assert.assertTrue("#5 '" + token5 + "' must trigger rule : lowercase",
-				ctx.contains("'" + token5 + "' triggers 'lowercase'"));
+				report.contains("'" + token5 + "' triggers 'lowercase'"));
 
 		Assert.assertTrue("#5 '" + token5 + "' must trigger rule : domain",
-				ctx.contains("'" + token5 + "' triggers 'domain'"));
+				report.contains("'" + token5 + "' triggers 'domain'"));
 
 		Assert.assertTrue("#5 '" + token5 + "' must trigger rule : instance",
-				ctx.contains("'" + token5 + "' triggers 'instance'"));
+				report.contains("'" + token5 + "' triggers 'instance'"));
 
 		Assert.assertTrue("#5 '" + token5 + "' must trigger rule : with",
-				ctx.contains("'" + token5 + "' triggers 'with'"));
+				report.contains("'" + token5 + "' triggers 'with'"));
 	}
 }

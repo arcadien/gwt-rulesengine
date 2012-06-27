@@ -17,12 +17,13 @@ package net.bobosse.gwt.rulesengine.client.impl.rules;
 
 import java.util.ArrayList;
 
+import net.bobosse.gwt.rulesengine.client.Report;
 import net.bobosse.gwt.rulesengine.client.Rule;
 import net.bobosse.gwt.rulesengine.client.RuleHandler;
-import net.bobosse.gwt.rulesengine.client.RulesEngine;
+import net.bobosse.gwt.rulesengine.client.RulesEngine.OrderMode;
+import net.bobosse.gwt.rulesengine.client.Session;
 import net.bobosse.gwt.rulesengine.client.impl.commands.AbstractRuledCommand;
 import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine;
-import net.bobosse.gwt.rulesengine.client.impl.rules.NullOrEmptyRule;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -51,8 +52,7 @@ public class NullOrEmptyRuleTest
 	public void testMatch()
 	{
 
-		SingleFactRulesEngine engine = new SingleFactRulesEngine(
-				RulesEngine.OrderMode.INSERT);
+		SingleFactRulesEngine engine = new SingleFactRulesEngine();
 
 		final ArrayList<Rule> matchedRules = new ArrayList<Rule>();
 
@@ -61,7 +61,8 @@ public class NullOrEmptyRuleTest
 
 		handler.getRule().addCommand(new LogRuleAction(matchedRules));
 
-		engine.processFact(" ".trim());
+		Session session = engine.createStatelessSession(OrderMode.INSERT, new Report());
+		session.processFact(" ".trim());
 		Assert.assertEquals("Empty string matches too!", true,
 				matchedRules.contains(handler.getRule()));
 

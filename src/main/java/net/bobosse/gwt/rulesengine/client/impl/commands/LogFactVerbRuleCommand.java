@@ -21,8 +21,8 @@ import net.bobosse.gwt.rulesengine.client.Report;
  * Simple command that insert a string in the {@link Report} as of :<br />
  * 
  * <code> 'toto' plays ball</code><br />
- * Where toto is a <code>toString()</code> result of processed fact, and "ball",
- * the triggered rule name. "plays" is a verb wich is set trough constructor.
+ * Where toto is a <code>toString()</code> result of processed <i>fact</i>, and "ball",
+ * the triggered rule name. "plays" is a verb which is set as string value trough constructor.
  * 
  * 
  * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>

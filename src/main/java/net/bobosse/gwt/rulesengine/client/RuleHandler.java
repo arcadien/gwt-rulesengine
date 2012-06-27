@@ -20,11 +20,9 @@ package net.bobosse.gwt.rulesengine.client;
  * Keep a reference on {@link Rule} to let it be removed from
  * {@link RulesEngine}.
  * 
- * @author sesa202001
- * 
+ * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
  */
-public interface RuleHandler
-{
+public interface RuleHandler {
 	/**
 	 * free rule and all its associations
 	 */

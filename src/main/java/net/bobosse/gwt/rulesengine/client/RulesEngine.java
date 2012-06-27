@@ -21,31 +21,40 @@ package net.bobosse.gwt.rulesengine.client;
  * {@link RuledCommand} are fired. Else, nothing is done and the next
  * {@link Rule} is processed until no rule remains.<br />
  * 
- * @author sesa202001
- * 
+ * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
  */
-public interface RulesEngine
-{
+public interface RulesEngine {
 
+	/**
+	 * How the result of <code>getRules(OrderMode mode)</code> will be sorted.<br />
+	 * <ul>
+	 * <li>OrderMode.SALIENCE : sorted by salience value. remember default is
+	 * -1. If two rules has same salience value, the older one (early added)
+	 * will appear first.</li>
+	 * <li>OrderMode.INSERT : sorted in same order they were added</li>
+	 * </ul>
+	 * 
+	 */
+	public enum OrderMode {
+		SALIENCE, INSERT
+	}
+
+	/**
+	 * Add a rule to a {@link RulesEngine}
+	 * 
+	 * @param rule to add to a {@link RulesEngine}
+	 * @return a RuleHandler
+	 */
 	RuleHandler addRule(Rule rule);
 
 	/**
-	 * process a fact trough rules
+	 * Create a session that holds no hard references to <i>facts</i> or {@link Rule},
+	 * and don't need to be disposed.
 	 * 
-	 * @param fact
-	 */
-	void processFact(Object fact);
-
-	/**
-	 * process a fact trough rules and specify a specific {@link Report}
-	 * 
-	 * @param fact
+	 * @param mode
 	 * @param report
+	 * @return
 	 */
-	void processFact(Object fact, Report report);
-
-	Report getReport();
-
-	void clearReport();
-
+	public Session createStatelessSession(final OrderMode mode,
+			final Report report);
 }

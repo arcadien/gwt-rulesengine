@@ -30,10 +30,14 @@ import com.google.gwt.regexp.shared.RegExp;
  * Here is an online JS regex tester :
  * http://www.regular-expressions.info/javascriptexample.html
  * 
- * @author sesa202001
+ * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
  * 
  */
 public class RegexRule extends AbstractRule {
+	
+	/**
+	 * this rule trigger regex regex
+	 */
 	private String pattern;
 
 	/**
@@ -78,14 +82,15 @@ public class RegexRule extends AbstractRule {
 	}
 
 	@Override
-	public void execute(Object fact, Report context) {
+	public void execute(Object fact, Report report) {
 		ArrayList<String> matches = new ArrayList<String>();
 		matches = getMatches(fact.toString(), pattern);
 		if (matches.size() > 0) {
 			Log.debug("'" + this + "' matched '" + fact + "'");
 
-			setReport(context);
+			setReport(report);
 			setFact(fact);
+			
 			executeCommands();
 
 		}
