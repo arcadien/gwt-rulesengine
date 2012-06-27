@@ -16,9 +16,9 @@
 package net.bobosse.gwt.rulesengine.client.impl;
 
 import net.bobosse.gwt.rulesengine.client.Report;
+import net.bobosse.gwt.rulesengine.client.RulesEngine.OrderMode;
 import net.bobosse.gwt.rulesengine.client.impl.commands.LogFactVerbRuleCommand;
 import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine;
-import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine.OrderMode;
 import net.bobosse.gwt.rulesengine.client.impl.rules.RegexRule;
 
 import org.junit.Assert;

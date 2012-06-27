@@ -80,7 +80,7 @@ public class AbstractRuleTest {
 		rule.setPreceedingRules(rules);
 
 		Assert.assertEquals(rules, rule.getFollowing());
-		Assert.assertEquals(rules, rule.getPreceeding());
+		Assert.assertEquals(rules, rule.getPreceding());
 
 	}
 }

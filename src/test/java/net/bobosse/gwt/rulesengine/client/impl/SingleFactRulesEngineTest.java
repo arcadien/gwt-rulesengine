@@ -19,14 +19,14 @@ import java.util.List;
 
 import net.bobosse.gwt.rulesengine.client.Rule;
 import net.bobosse.gwt.rulesengine.client.RuleHandler;
+import net.bobosse.gwt.rulesengine.client.RulesEngine.OrderMode;
 import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine;
-import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine.OrderMode;
 import net.bobosse.gwt.rulesengine.client.impl.rules.RegexRule;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SingleFactRulesEngineImplTest {
+public class SingleFactRulesEngineTest {
 
 	@Test
 	public void testAddRule() {

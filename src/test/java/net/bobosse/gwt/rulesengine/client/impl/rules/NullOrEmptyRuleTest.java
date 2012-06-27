@@ -13,21 +13,21 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package net.bobosse.gwt.rulesengine.client.impl;
+package net.bobosse.gwt.rulesengine.client.impl.rules;
 
 import java.util.ArrayList;
 
 import net.bobosse.gwt.rulesengine.client.Rule;
 import net.bobosse.gwt.rulesengine.client.RuleHandler;
+import net.bobosse.gwt.rulesengine.client.RulesEngine;
 import net.bobosse.gwt.rulesengine.client.impl.commands.AbstractRuledCommand;
 import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine;
-import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine.OrderMode;
 import net.bobosse.gwt.rulesengine.client.impl.rules.NullOrEmptyRule;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-public class NullOrEmptyRuleImplTest
+public class NullOrEmptyRuleTest
 {
 
 	private class LogRuleAction extends AbstractRuledCommand
@@ -52,7 +52,7 @@ public class NullOrEmptyRuleImplTest
 	{
 
 		SingleFactRulesEngine engine = new SingleFactRulesEngine(
-				OrderMode.INSERT);
+				RulesEngine.OrderMode.INSERT);
 
 		final ArrayList<Rule> matchedRules = new ArrayList<Rule>();
 
