@@ -12,7 +12,7 @@
 	<artifactId>gwt-rulesengine</artifactId>
 	<packaging>jar</packaging>
 	<version>0.4-SNAPSHOT</version>
-	<name>GWT rules engine extensions</name>
+	<name>A lightweight rule engine for GWT</name>
 
 	<url>http://arcadien.github.com/gwt-rulesengine</url>
 
