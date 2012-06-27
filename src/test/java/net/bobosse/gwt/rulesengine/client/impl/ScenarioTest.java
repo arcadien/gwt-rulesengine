@@ -95,8 +95,7 @@ public class ScenarioTest
 		engine.processFact(token5);
 
 		Report ctx = engine.getReport();
-		engine.clearReport();
-
+		
 		// token1
 		// trigger lowercase rule
 		Assert.assertTrue("#1 'a' must trigger rule : lowercase",

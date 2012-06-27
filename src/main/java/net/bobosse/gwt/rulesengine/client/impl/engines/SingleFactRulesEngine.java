@@ -61,7 +61,7 @@ public class SingleFactRulesEngine implements RulesEngine {
 
 	private final Map<Integer, RuleHandler> rulesMap = new HashMap<Integer, RuleHandler>();
 
-	private Report report;
+	private final Report report;
 
 	/**
 	 * How the result of <code>getRules(OrderMode mode)</code> will be sorted.<br />
