@@ -27,18 +27,26 @@ import com.allen_sauer.gwt.log.client.Log;
  * match is "consumed" and a Match entry is recorded in the report.<br />
  * <code>execute()</code> then returns a list of potential {@link Rule} to
  * execute. This process continue until all <i>fact</i> is consumed or not
- * following {@link Rule} is specified in report.
+ * following {@link Rule} is specified in report. <br />
+ * If at a point no rule is matching but there is still content to consume, then
+ * the engine will try to split the rest of content on space character and try
+ * tokens against all rules, until a token matches and then process continue
+ * normally. <br />
+ * This engine is designed to process one fact at time, so it is a simple rules
+ * engine that does not need a Rete or Rete like implementation.
  * 
  * 
  * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
  * 
  */
-public class StringAnalysisRulesEngine extends AbstractRulesEngine {
-
+public class StringAnalysisRulesEngine extends AbstractRulesEngine
+{
 
 	@Override
-	public void processFact(Object fact, Report report, OrderMode mode) {
-		for (Rule rule : getRules(mode)) {
+	public void processFact(Object fact, Report report, OrderMode mode)
+	{
+		for(Rule rule: getRules(mode))
+		{
 			Log.debug("#processFact() executes rule " + rule);
 			rule.execute(fact, report);
 			throw new IllegalStateException("Not implemented yet");
