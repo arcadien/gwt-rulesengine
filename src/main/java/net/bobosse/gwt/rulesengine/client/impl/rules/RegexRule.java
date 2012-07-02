@@ -34,11 +34,13 @@ import com.google.gwt.regexp.shared.RegExp;
  * 
  */
 public class RegexRule extends AbstractRule {
-	
+
 	/**
 	 * this rule trigger regex regex
 	 */
 	private String pattern;
+	private RegExp regExp;
+	private ArrayList<MatchResult> matches;
 
 	/**
 	 * Full constructor
@@ -77,23 +79,34 @@ public class RegexRule extends AbstractRule {
 	 * @param string
 	 * @return list of string's matches, according to rule's pattern.
 	 */
-	protected ArrayList<String> getMatches(String string) {
+	protected ArrayList<MatchResult> getMatches(String string) {
 		return getMatches(string, pattern);
 	}
 
+	/**
+	 * 
+	 * @return match result, if any, or empty list.
+	 */
+	public ArrayList<MatchResult> getMatches() {
+		return matches;
+	}
+
 	@Override
-	public void execute(Object fact, Report report) {
-		ArrayList<String> matches = new ArrayList<String>();
+	public boolean execute(Object fact, Report report) {
+
 		matches = getMatches(fact.toString(), pattern);
+		boolean status = (matches.size() > 0);
+
 		if (matches.size() > 0) {
 			Log.debug("'" + this + "' matched '" + fact + "'");
 
 			setReport(report);
 			setFact(fact);
-			
+
 			executeCommands();
 
 		}
+		return status;
 	}
 
 	@Override
@@ -101,12 +114,14 @@ public class RegexRule extends AbstractRule {
 		return getName();
 	}
 
-	private ArrayList<String> getMatches(String input, String pattern) {
-		ArrayList<String> matches = new ArrayList<String>();
-		RegExp regExp = RegExp.compile(pattern, "g");
+	private ArrayList<MatchResult> getMatches(String input, String pattern) {
+		ArrayList<MatchResult> matches = new ArrayList<MatchResult>();
+		if (null == regExp) {
+			regExp = RegExp.compile(pattern, "g");
+		}
 		for (MatchResult matcher = regExp.exec(input); matcher != null; matcher = regExp
 				.exec(input)) {
-			matches.add(matcher.getGroup(0));
+			matches.add(matcher);
 		}
 		return matches;
 	}

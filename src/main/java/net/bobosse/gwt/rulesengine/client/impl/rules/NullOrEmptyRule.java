@@ -31,11 +31,13 @@ public class NullOrEmptyRule extends AbstractRule {
 	}
 
 	@Override
-	public void execute(Object fact, Report report) {
+	public boolean execute(Object fact, Report report) {
 		setFact(fact);
 		setReport(report);
+		boolean status = null == fact || fact.toString().length() == 0;
 		if (null == fact || fact.toString().length() == 0) {
 			executeCommands();
 		}
+		return status;
 	}
 }

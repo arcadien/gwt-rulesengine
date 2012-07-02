@@ -32,8 +32,8 @@ public class AbstractRuleTest {
 		return new AbstractRule(name, 10) {
 
 			@Override
-			public void execute(Object fact, Report report) {
-				// TODO Auto-generated method stub
+			public boolean execute(Object fact, Report report) {
+				return true;
 			}
 		};
 	}

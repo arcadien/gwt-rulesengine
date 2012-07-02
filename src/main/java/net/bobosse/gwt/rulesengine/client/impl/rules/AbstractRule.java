@@ -146,14 +146,14 @@ public abstract class AbstractRule implements Rule {
 		}
 	}
 
-	public void setFollowingRules(List<Rule> fRules) {
+	public void setFollowingRules(List<Rule> rules) {
 		followingRules.clear();
-		followingRules.addAll(fRules);
+		followingRules.addAll(rules);
 	}
 
-	public void setPreceedingRules(List<Rule> pRules) {
+	public void setPreceedingRules(List<Rule> rules) {
 		preceedingRules.clear();
-		preceedingRules.addAll(pRules);
+		preceedingRules.addAll(rules);
 	}
 
 	@Override
