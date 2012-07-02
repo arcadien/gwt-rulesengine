@@ -77,8 +77,10 @@ public interface Rule {
 	 * <code>Rule#setFact()</code>, to avoid a {@link NullPointerException} if a
 	 * {@link RuledCommand} tries an access to it.
 	 * 
+	 * @return true if the {@link Rule} has matched something, false otherwise.
+	 * 
 	 */
-	void execute(Object fact, Report report);
+	boolean execute(Object fact, Report report);
 
 	/**
 	 * 
