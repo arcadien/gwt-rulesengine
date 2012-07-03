@@ -92,7 +92,7 @@ public class StringAnalysisRulesEngine extends AbstractRulesEngine {
 		System.out.print("processing rule " + rule.getName() + " against '"
 				+ fact + "' ..");
 
-		if (fact.length() > 0 && rule.execute(fact, report)) {
+		if (/*fact.length() > 0 && */ rule.execute(fact, report)) {
 
 			System.out.println("match");
 

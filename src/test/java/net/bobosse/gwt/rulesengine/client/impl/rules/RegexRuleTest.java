@@ -20,34 +20,53 @@ import java.util.ArrayList;
 import net.bobosse.gwt.rulesengine.client.Report;
 import net.bobosse.gwt.rulesengine.client.Rule;
 import net.bobosse.gwt.rulesengine.client.RuleHandler;
-import net.bobosse.gwt.rulesengine.client.Session;
 import net.bobosse.gwt.rulesengine.client.RulesEngine.OrderMode;
+import net.bobosse.gwt.rulesengine.client.Session;
 import net.bobosse.gwt.rulesengine.client.impl.commands.AbstractRuledCommand;
+import net.bobosse.gwt.rulesengine.client.impl.commands.LogFactVerbRuleCommand;
 import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine;
-import net.bobosse.gwt.rulesengine.client.impl.rules.RegexRule;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-public class RegexRuleTest {
+public class RegexRuleTest
+{
 
-	private class LogRuleAction extends AbstractRuledCommand {
+	private class LogRuleAction extends AbstractRuledCommand
+	{
 
 		private ArrayList<Rule> matched;
 
-		public LogRuleAction(ArrayList<Rule> matched) {
+		public LogRuleAction (ArrayList<Rule> matched)
+		{
 			this.matched = matched;
 		}
 
 		@Override
-		public void execute() {
+		public void execute()
+		{
 			matched.add(getRule());
 
 		}
 	}
 
 	@Test
-	public void testMatch() {
+	public void testEmptyStringMatch()
+	{
+
+		Rule rule = new RegexRule("empty string",
+				"^$", 100);
+		rule.addCommand(new LogFactVerbRuleCommand("matched"));
+		Report report = new Report();
+		rule.execute("", report);
+		
+		Assert.assertEquals("'empty string' must match", "'' matched 'empty string'",
+				report.get(0));
+	}
+
+	@Test
+	public void testMatch()
+	{
 
 		SingleFactRulesEngine engine = new SingleFactRulesEngine();
 
@@ -61,8 +80,8 @@ public class RegexRuleTest {
 				"[A-Z]", 100));
 		handler2.getRule().addCommand(new LogRuleAction(matchedRules));
 
-		Session session = engine.createStatelessSession(
-				OrderMode.INSERT, new Report());
+		Session session = engine.createStatelessSession(OrderMode.INSERT,
+				new Report());
 		session.processFact("i must match");
 		Assert.assertEquals("'lower case only' must match", true,
 				matchedRules.contains(handler.getRule()));

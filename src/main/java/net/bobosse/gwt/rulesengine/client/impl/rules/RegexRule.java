@@ -33,7 +33,8 @@ import com.google.gwt.regexp.shared.RegExp;
  * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
  * 
  */
-public class RegexRule extends AbstractRule {
+public class RegexRule extends AbstractRule
+{
 
 	/**
 	 * this rule trigger regex regex
@@ -55,7 +56,8 @@ public class RegexRule extends AbstractRule {
 	 *            priority level ( -100 &lt; salience &gt; 100)
 	 * 
 	 */
-	public RegexRule(String name, String pattern, int salience) {
+	public RegexRule (String name, String pattern, int salience)
+	{
 		super(name, salience);
 		this.pattern = pattern;
 	}
@@ -69,7 +71,8 @@ public class RegexRule extends AbstractRule {
 	 * @param pattern
 	 *            rule's match pattern
 	 */
-	public RegexRule(String name, String pattern) {
+	public RegexRule (String name, String pattern)
+	{
 		this(name, pattern, -1);
 	}
 
@@ -79,7 +82,8 @@ public class RegexRule extends AbstractRule {
 	 * @param string
 	 * @return list of string's matches, according to rule's pattern.
 	 */
-	protected ArrayList<MatchResult> getMatches(String string) {
+	protected ArrayList<MatchResult> getMatches(String string)
+	{
 		return getMatches(string, pattern);
 	}
 
@@ -87,17 +91,20 @@ public class RegexRule extends AbstractRule {
 	 * 
 	 * @return match result, if any, or empty list.
 	 */
-	public ArrayList<MatchResult> getMatches() {
+	public ArrayList<MatchResult> getMatches()
+	{
 		return matches;
 	}
 
 	@Override
-	public boolean execute(Object fact, Report report) {
+	public boolean execute(Object fact, Report report)
+	{
 
 		matches = getMatches(fact.toString(), pattern);
 		boolean status = (matches.size() > 0);
 
-		if (matches.size() > 0) {
+		if(matches.size() > 0)
+		{
 			Log.debug("'" + this + "' matched '" + fact + "'");
 
 			setReport(report);
@@ -110,18 +117,36 @@ public class RegexRule extends AbstractRule {
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return getName();
 	}
 
-	private ArrayList<MatchResult> getMatches(String input, String pattern) {
+	private ArrayList<MatchResult> getMatches(String input, String pattern)
+	{
 		ArrayList<MatchResult> matches = new ArrayList<MatchResult>();
-		if (null == regExp) {
+		if(null == regExp)
+		{
 			regExp = RegExp.compile(pattern, "g");
 		}
-		for (MatchResult matcher = regExp.exec(input); matcher != null; matcher = regExp
-				.exec(input)) {
-			matches.add(matcher);
+		if(input.isEmpty())
+		{
+			// empty string : just check if pattern validate and
+			// don't try to extract matches : it will resutl in infinite
+			// loop.
+			if(regExp.test(input))
+			{
+				matches.add(new MatchResult(0, "", new ArrayList<String>(0)));
+			}
+		}
+		else
+		{
+
+			for(MatchResult matcher = regExp.exec(input); matcher != null; matcher = regExp
+					.exec(input))
+			{
+				matches.add(matcher);
+			}
 		}
 		return matches;
 	}
