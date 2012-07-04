@@ -76,6 +76,28 @@
 				</plugins>
 			</build>
 		</profile>
+		
+		<!-- special profile for GWT test, separatly -->
+		<profile>
+			<id>gwtTest</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>gwt-maven-plugin</artifactId>
+						<version>2.4.0</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>test</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
 		<!-- Profile used when checking/updating license and file header -->
 		<profile>
 			<id>legalProcess</id>
@@ -236,7 +258,7 @@
 					<execution>
 						<goals>
 							<goal>compile</goal>
-							<goal>test</goal>
+							<!-- <goal>test</goal> -->
 							<!-- <goal>i18n</goal> -->
 							<goal>generateAsync</goal>
 						</goals>
