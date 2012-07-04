@@ -16,10 +16,12 @@
 package net.bobosse.gwt.rulesengine.client.impl.rules;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.bobosse.gwt.rulesengine.client.Report;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.common.collect.Lists;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
@@ -42,9 +44,58 @@ public class RegexRule extends AbstractRule
 	private String pattern;
 	private RegExp regExp;
 	private ArrayList<MatchResult> matches;
+	private List<Flag> flags;
+	private String flagStr;
+
+	private static final List<Flag> defaultFlag = Lists.newArrayList(Flag.g);
+
+	private static final MatchResult emptyMatch = RegExp.compile("^$", "")
+			.exec("");
+
+	/**
+	 * GWT's allowed regex modifiers.
+	 * 
+	 * @author sesa202001
+	 * 
+	 */
+	public enum Flag
+	{
+		/** global */
+		g,
+		/** ignore case */
+		i,
+		/** multi-line */
+		m
+	}
 
 	/**
 	 * Full constructor
+	 * 
+	 * @param name
+	 *            rule's name
+	 * @param pattern
+	 *            rule's match pattern
+	 * @param actions
+	 *            to execute() when rule matches
+	 * 
+	 * @param modifier
+	 *            is the regex modifier, ie char after the last "/". Could be
+	 * @param salience
+	 *            priority level ( -100 &lt; salience &gt; 100)
+	 * 
+	 */
+	public RegexRule (String name, String pattern, List<Flag> flags,
+			int salience)
+	{
+		super(name, salience);
+		this.pattern = pattern;
+		this.flags = flags;
+		Log.debug(this.toString());
+	}
+
+	/**
+	 * Constructor that uses <code>Flag.G</code> as default flag for
+	 * {@link RegexRule}'s regex.
 	 * 
 	 * @param name
 	 *            rule's name
@@ -58,8 +109,7 @@ public class RegexRule extends AbstractRule
 	 */
 	public RegexRule (String name, String pattern, int salience)
 	{
-		super(name, salience);
-		this.pattern = pattern;
+		this(name, pattern, defaultFlag, salience);
 	}
 
 	/**
@@ -119,7 +169,12 @@ public class RegexRule extends AbstractRule
 	@Override
 	public String toString()
 	{
-		return getName();
+		if(null == flagStr)
+		{
+			buildFlagStr();
+		}
+		return "[ rule '" + getName() + "', pattern : " + "/" + pattern + "/"
+				+ flagStr + " ]";
 	}
 
 	private ArrayList<MatchResult> getMatches(String input, String pattern)
@@ -127,17 +182,15 @@ public class RegexRule extends AbstractRule
 		ArrayList<MatchResult> matches = new ArrayList<MatchResult>();
 		if(null == regExp)
 		{
-			regExp = RegExp.compile(pattern, "g");
+			if(null == flagStr)
+			{
+				buildFlagStr();
+			}
+			regExp = RegExp.compile(pattern, flagStr);
 		}
 		if(input.isEmpty())
 		{
-			// empty string : just check if pattern validate and
-			// don't try to extract matches : it will resutl in infinite
-			// loop.
-			if(regExp.test(input))
-			{
-				matches.add(new MatchResult(0, "", new ArrayList<String>(0)));
-			}
+			matches.add(regExp.exec(input));
 		}
 		else
 		{
@@ -149,5 +202,14 @@ public class RegexRule extends AbstractRule
 			}
 		}
 		return matches;
+	}
+
+	private void buildFlagStr()
+	{
+		flagStr = "";
+		for(Flag flag: flags)
+		{
+			flagStr = flagStr.concat(flag.name());
+		}
 	}
 }

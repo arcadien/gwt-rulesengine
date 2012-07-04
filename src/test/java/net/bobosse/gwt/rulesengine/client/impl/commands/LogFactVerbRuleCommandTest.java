@@ -32,6 +32,9 @@ public class LogFactVerbRuleCommandTest
 
 		Report report = new Report();
 		RegexRule rule = new RegexRule("rule", "[a-z]");
+		
+		System.out.println(rule.toString());
+		
 		LogFactVerbRuleCommand cmd = new LogFactVerbRuleCommand("verb");
 		rule.addCommand(cmd);
 		rule.execute("fact", report);

@@ -17,9 +17,15 @@
 
 -->
 <module>
-  <!-- Inherit our applications main module.                      -->
+  
+  <!-- Inherit our applications main module.              -->
   <inherits name='net.bobosse.gwt.rulesengine.RulesEngine' />
 
-  <!-- Specify the path to any remote services.                   -->
+  <!-- For development, a default of `DEBUG` is recommended -->
+  <inherits name="com.allen_sauer.gwt.log.gwt-log-DEBUG" />
+ 
+  <inherits name="com.google.common.collect.Collect" />
+  <inherits name="com.google.gwt.regexp.RegExp" />
+ 
 
 </module>
