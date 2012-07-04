@@ -49,9 +49,6 @@ public class RegexRule extends AbstractRule
 
 	private static final List<Flag> defaultFlag = Lists.newArrayList(Flag.g);
 
-	private static final MatchResult emptyMatch = RegExp.compile("^$", "")
-			.exec("");
-
 	/**
 	 * GWT's allowed regex modifiers.
 	 * 
