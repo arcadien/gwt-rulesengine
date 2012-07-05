@@ -80,6 +80,12 @@
 		<!-- special profile for GWT test, separatly -->
 		<profile>
 			<id>gwtTest</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>
