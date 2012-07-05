@@ -11,7 +11,7 @@
 	<groupId>net.bobosse</groupId>
 	<artifactId>gwt-rulesengine</artifactId>
 	<packaging>jar</packaging>
-	<version>0.5</version>
+	<version>0.6-SNAPSHOT</version>
 
 	<name>GWT RulesEngine</name>
 	<description>A lightweight rule engine for GWT</description>
