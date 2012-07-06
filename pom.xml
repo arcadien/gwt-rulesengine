@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -75,7 +76,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<!-- special profile for GWT test, separatly -->
 		<profile>
 			<id>gwtTest</id>
@@ -102,7 +103,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<!-- Profile used when checking/updating license and file header -->
 		<profile>
 			<id>legalProcess</id>
@@ -304,6 +305,11 @@
 				</executions>
 				<configuration>
 					<reportPlugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-jxr-plugin</artifactId>
+							 <version>2.3</version>
+						</plugin>
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-project-info-reports-plugin</artifactId>
