@@ -21,17 +21,18 @@ import net.bobosse.gwt.rulesengine.client.Report;
  * Simple command that insert a string in the {@link Report} as of :<br />
  * 
  * <code> 'toto' plays ball</code><br />
- * Where toto is a <code>toString()</code> result of processed <i>fact</i>, and "ball",
- * the triggered rule name. "plays" is a verb which is set as string value trough constructor.
+ * Where toto is a <code>toString()</code> result of processed <i>fact</i>, and
+ * "ball", the triggered rule name. "plays" is a verb which is set as string
+ * value trough constructor.
  * 
  * 
  * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
  * 
  */
-public class LogFactVerbRuleCommand extends AbstractRuledCommand
-{
+public class LogFactVerbRuleCommand extends AbstractRuledCommand {
 
 	String verb;
+	private String srep;
 
 	/**
 	 * 
@@ -41,17 +42,23 @@ public class LogFactVerbRuleCommand extends AbstractRuledCommand
 	 *            Here, verb is "plays".
 	 * 
 	 */
-	public LogFactVerbRuleCommand (String verb)
-	{
+	public LogFactVerbRuleCommand(String verb) {
 		this.verb = verb;
 	}
 
 	@Override
-	public void execute()
-	{
+	public void execute() {
 		getRule().getReport().add(
 				"'" + getRule().getFact() + "' " + verb + " '"
 						+ getRule().getName() + "'");
 
+	}
+
+	@Override
+	public String toString() {
+		if (srep == null) {
+			srep = new String("LogFactVerbRuleCommand[\"" + verb + "\"]");
+		}
+		return srep;
 	}
 }

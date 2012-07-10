@@ -22,6 +22,7 @@ import net.bobosse.gwt.rulesengine.client.RulesEngine;
 import net.bobosse.gwt.rulesengine.client.impl.commands.LogFactVerbRuleCommand;
 import net.bobosse.gwt.rulesengine.client.impl.rules.RegexRule;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.regexp.shared.MatchResult;
 
 /**
@@ -52,7 +53,7 @@ public class StringAnalysisRulesEngine extends AbstractRulesEngine {
 	 */
 	public StringAnalysisRulesEngine() {
 	}
-	
+
 	/**
 	 * Constuctor that allow to set the {@link Rule} that will be used to match
 	 * something to strip from the analysed string when no rules can obtain a
@@ -81,20 +82,30 @@ public class StringAnalysisRulesEngine extends AbstractRulesEngine {
 					"StringAnalysisRulesEngine only accepts String facts");
 		}
 
-		Rule firstRule = getRules(mode).get(0);
-		if (null != firstRule) {
-			processRule((String) fact, report, firstRule);
+		if (getRules(mode).size() == 1) {
+			Log.info("Only one rule, executing in tree mode by default");
+
+			Rule firstRule = getRules(mode).get(0);
+			if (null != firstRule) {
+				processRule((String) fact, report, firstRule);
+			}
+		} else {
+			Log.info("More than one entry rule, executing in list mode (order : "
+					+ mode.name() + ")");
+			for (Rule rule : getRules(mode)) {
+				processRule((String) fact, report, rule);
+			}
 		}
 	}
 
 	private boolean processRule(String fact, Report report, Rule rule) {
 
-		System.out.print("processing rule " + rule.getName() + " against '"
-				+ fact + "' ..");
+		Log.debug("processing rule " + rule.getName() + " against '" + fact
+				+ "' ..");
 
 		if (fact.length() > 0 && rule.execute(fact, report)) {
 
-			System.out.println("match");
+			Log.debug("match");
 
 			// something was identified, we remove it from analyzed string
 			for (MatchResult mr : ((RegexRule) rule).getMatches()) {
@@ -125,7 +136,7 @@ public class StringAnalysisRulesEngine extends AbstractRulesEngine {
 			}
 			return true;
 		} else {
-			System.out.println("NO match");
+			Log.debug("NO match");
 			return false;
 		}
 	}
