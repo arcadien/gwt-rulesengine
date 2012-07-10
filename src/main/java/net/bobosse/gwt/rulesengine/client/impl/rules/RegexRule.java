@@ -1,25 +1,27 @@
 /**
- *    Copyright  2012 Aurélien Labrosse <aurelien.labrosse@gmail.com>
+ * Copyright  2012 Aurélien Labrosse <aurelien.labrosse@gmail.com>
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package net.bobosse.gwt.rulesengine.client.impl.rules;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.bobosse.gwt.rulesengine.client.Report;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.common.collect.Lists;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
@@ -33,7 +35,8 @@ import com.google.gwt.regexp.shared.RegExp;
  * @author Aurélien Labrosse <aurelien.labrosse@gmail.com>
  * 
  */
-public class RegexRule extends AbstractRule {
+public class RegexRule extends AbstractRule
+{
 
 	/**
 	 * this rule trigger regex regex
@@ -41,9 +44,55 @@ public class RegexRule extends AbstractRule {
 	private String pattern;
 	private RegExp regExp;
 	private ArrayList<MatchResult> matches;
+	private List<Flag> flags;
+	private String flagStr;
+
+	private static final List<Flag> defaultFlag = Lists.newArrayList(Flag.g);
+
+	/**
+	 * GWT's allowed regex modifiers.
+	 * 
+	 * @author sesa202001
+	 * 
+	 */
+	public enum Flag
+	{
+		/** global */
+		g,
+		/** ignore case */
+		i,
+		/** multi-line */
+		m
+	}
 
 	/**
 	 * Full constructor
+	 * 
+	 * @param name
+	 *            rule's name
+	 * @param pattern
+	 *            rule's match pattern
+	 * @param actions
+	 *            to execute() when rule matches
+	 * 
+	 * @param modifier
+	 *            is the regex modifier, ie char after the last "/". Could be
+	 * @param salience
+	 *            priority level ( -100 &lt; salience &gt; 100)
+	 * 
+	 */
+	public RegexRule (String name, String pattern, List<Flag> flags,
+			int salience)
+	{
+		super(name, salience);
+		this.pattern = pattern;
+		this.flags = flags;
+		Log.debug(this.toString());
+	}
+
+	/**
+	 * Constructor that uses <code>Flag.G</code> as default flag for
+	 * {@link RegexRule}'s regex.
 	 * 
 	 * @param name
 	 *            rule's name
@@ -55,9 +104,9 @@ public class RegexRule extends AbstractRule {
 	 *            priority level ( -100 &lt; salience &gt; 100)
 	 * 
 	 */
-	public RegexRule(String name, String pattern, int salience) {
-		super(name, salience);
-		this.pattern = pattern;
+	public RegexRule (String name, String pattern, int salience)
+	{
+		this(name, pattern, defaultFlag, salience);
 	}
 
 	/**
@@ -69,7 +118,8 @@ public class RegexRule extends AbstractRule {
 	 * @param pattern
 	 *            rule's match pattern
 	 */
-	public RegexRule(String name, String pattern) {
+	public RegexRule (String name, String pattern)
+	{
 		this(name, pattern, -1);
 	}
 
@@ -79,7 +129,8 @@ public class RegexRule extends AbstractRule {
 	 * @param string
 	 * @return list of string's matches, according to rule's pattern.
 	 */
-	protected ArrayList<MatchResult> getMatches(String string) {
+	protected ArrayList<MatchResult> getMatches(String string)
+	{
 		return getMatches(string, pattern);
 	}
 
@@ -87,17 +138,20 @@ public class RegexRule extends AbstractRule {
 	 * 
 	 * @return match result, if any, or empty list.
 	 */
-	public ArrayList<MatchResult> getMatches() {
+	public ArrayList<MatchResult> getMatches()
+	{
 		return matches;
 	}
 
 	@Override
-	public boolean execute(Object fact, Report report) {
+	public boolean execute(Object fact, Report report)
+	{
 
 		matches = getMatches(fact.toString(), pattern);
 		boolean status = (matches.size() > 0);
 
-		if (matches.size() > 0) {
+		if(matches.size() > 0)
+		{
 			Log.debug("'" + this + "' matched '" + fact + "'");
 
 			setReport(report);
@@ -110,19 +164,49 @@ public class RegexRule extends AbstractRule {
 	}
 
 	@Override
-	public String toString() {
-		return getName();
+	public String toString()
+	{
+		if(null == flagStr)
+		{
+			buildFlagStr();
+		}
+		return "[ rule '" + getName() + "', pattern : " + "/" + pattern + "/"
+				+ flagStr + " ]";
 	}
 
-	private ArrayList<MatchResult> getMatches(String input, String pattern) {
+	private ArrayList<MatchResult> getMatches(String input, String pattern)
+	{
 		ArrayList<MatchResult> matches = new ArrayList<MatchResult>();
-		if (null == regExp) {
-			regExp = RegExp.compile(pattern, "g");
+		if(null == regExp)
+		{
+			if(null == flagStr)
+			{
+				buildFlagStr();
+			}
+			regExp = RegExp.compile(pattern, flagStr);
 		}
-		for (MatchResult matcher = regExp.exec(input); matcher != null; matcher = regExp
-				.exec(input)) {
-			matches.add(matcher);
+		if(input.isEmpty())
+		{
+			matches.add(regExp.exec(input));
+		}
+		else
+		{
+
+			for(MatchResult matcher = regExp.exec(input); matcher != null; matcher = regExp
+					.exec(input))
+			{
+				matches.add(matcher);
+			}
 		}
 		return matches;
+	}
+
+	private void buildFlagStr()
+	{
+		flagStr = "";
+		for(Flag flag: flags)
+		{
+			flagStr = flagStr.concat(flag.name());
+		}
 	}
 }

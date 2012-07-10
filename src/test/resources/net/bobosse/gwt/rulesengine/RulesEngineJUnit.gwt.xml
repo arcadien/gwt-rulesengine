@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-       Copyright  2012 Aurélien Labrosse <aurelien.labrosse@gmail.com>
+    Copyright  2012 Aurélien Labrosse <aurelien.labrosse@gmail.com>
 
-       Licensed under the Apache License, Version 2.0 (the "License");
-       you may not use this file except in compliance with the License.
-       You may obtain a copy of the License at
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-           http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
-       Unless required by applicable law or agreed to in writing, software
-       distributed under the License is distributed on an "AS IS" BASIS,
-       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-       See the License for the specific language governing permissions and
-       limitations under the License.
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 
 -->
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.4.0//EN" "http://google-web-toolkit.googlecode.com/svn/tags/2.4.0/distro-source/core/src/gwt-module.dtd">
 <module>
-  <!-- Inherit our applications main module.                      -->
+  
+  <!-- Inherit our applications main module.              -->
   <inherits name='net.bobosse.gwt.rulesengine.RulesEngine' />
 
-  <!-- Specify the path to any remote services.                   -->
+  <!-- For development, a default of `DEBUG` is recommended -->
+  <inherits name="com.allen_sauer.gwt.log.gwt-log-DEBUG" />
+ 
+  <inherits name="com.google.common.collect.Collect" />
+  <inherits name="com.google.gwt.regexp.RegExp" />
+ 
 
 </module>

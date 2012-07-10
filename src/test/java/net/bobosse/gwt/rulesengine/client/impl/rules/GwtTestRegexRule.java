@@ -23,12 +23,12 @@ import net.bobosse.gwt.rulesengine.client.RuleHandler;
 import net.bobosse.gwt.rulesengine.client.RulesEngine.OrderMode;
 import net.bobosse.gwt.rulesengine.client.Session;
 import net.bobosse.gwt.rulesengine.client.impl.commands.AbstractRuledCommand;
+import net.bobosse.gwt.rulesengine.client.impl.commands.LogFactVerbRuleCommand;
 import net.bobosse.gwt.rulesengine.client.impl.engines.SingleFactRulesEngine;
 
-import org.junit.Assert;
-import org.junit.Test;
+import com.google.gwt.junit.client.GWTTestCase;
 
-public class NullOrEmptyRuleTest
+public class GwtTestRegexRule extends GWTTestCase
 {
 
 	private class LogRuleAction extends AbstractRuledCommand
@@ -45,10 +45,22 @@ public class NullOrEmptyRuleTest
 		public void execute()
 		{
 			matched.add(getRule());
+
 		}
 	}
 
-	@Test
+	public void testEmptyStringMatch()
+	{
+
+		Rule rule = new RegexRule("empty string", "^$", 100);
+		rule.addCommand(new LogFactVerbRuleCommand("matched"));
+		Report report = new Report();
+		rule.execute("", report);
+
+		assertEquals("'empty string' must match", "'' matched 'empty string'",
+				report.get(0));
+	}
+
 	public void testMatch()
 	{
 
@@ -56,16 +68,30 @@ public class NullOrEmptyRuleTest
 
 		final ArrayList<Rule> matchedRules = new ArrayList<Rule>();
 
-		RuleHandler handler = engine.addRule(new NullOrEmptyRule(
-				"empty parameter", 100));
-
+		RuleHandler handler = engine.addRule(new RegexRule("lower case only",
+				"[a-z]", 100));
 		handler.getRule().addCommand(new LogRuleAction(matchedRules));
 
-		Session session = engine.createStatelessSession(OrderMode.INSERT, new Report());
-		session.processFact(" ".trim());
-		Assert.assertEquals("Empty string matches too!", true,
+		RuleHandler handler2 = engine.addRule(new RegexRule("upper case only",
+				"[A-Z]", 100));
+		handler2.getRule().addCommand(new LogRuleAction(matchedRules));
+
+		Session session = engine.createStatelessSession(OrderMode.INSERT,
+				new Report());
+		session.processFact("i must match");
+		assertEquals("'lower case only' must match", true,
 				matchedRules.contains(handler.getRule()));
 
+		session.processFact("AAAAA");
+		assertEquals("'upper case only' must match", true,
+				matchedRules.contains(handler2.getRule()));
+
+	}
+
+	@Override
+	public String getModuleName()
+	{
+		return "net.bobosse.gwt.rulesengine.RulesEngine";
 	}
 
 }
