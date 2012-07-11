@@ -88,6 +88,7 @@
 						<inherited>false</inherited>
 						<configuration>
 							<strictCheck>true</strictCheck>
+							<encoding>UTF-8</encoding>
 							<basedir>${basedir}</basedir>
 							<header>${basedir}/license/headerTemplate.txt</header>
 							<quiet>false</quiet>
@@ -101,6 +102,7 @@
 								<exclude>license/**</exclude>
 								<exclude>target/**</exclude>
 								<exclude>misc/**</exclude>
+								<exclude>**/log4j.properties</exclude>
 							</excludes>
 							<useDefaultExcludes>true</useDefaultExcludes>
 							<mapping>

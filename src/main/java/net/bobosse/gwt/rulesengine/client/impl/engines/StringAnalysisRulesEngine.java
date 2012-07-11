@@ -109,7 +109,8 @@ public class StringAnalysisRulesEngine extends AbstractRulesEngine {
 
 			// something was identified, we remove it from analyzed string
 			for (MatchResult mr : ((RegexRule) rule).getMatches()) {
-				fact = fact.substring(mr.getGroup(0).length());
+				if(null != mr)
+					fact = fact.substring(mr.getGroup(0).length());
 			}
 
 			// process following rules until string totally consumed
